@@ -1,6 +1,7 @@
 <script lang="ts">
     import SearchBar from "./SearchBar.svelte"
     import SideBar from "./SideBar.svelte"
+    import PartnerCard from "$lib/PartnerCard.svelte"
 </script>
 
 <page>
@@ -8,6 +9,7 @@
 
     <SearchBar />
     <SideBar />
+    <PartnerCard />
 </page>
 
 <style> 
