@@ -1,5 +1,21 @@
+<script lang="ts">
+    let suggestions = [
+        {name: "Hello. Babababa"},
+        {name: "Hello. Babababa"},
+        {name: "Hello. Babababa"},
+        {name: "Hello. Babababa"},
+        {name: "Hello. Babababa"},
+    ];
+
+    let searchQuery;
+
+    function fetchSuggestions() {
+        suggestions[0].name = searchQuery;
+    }
+</script>
+
 <searchbar>
-    <input placeholder="Search your network...">
+    <input bind:value={searchQuery} on:input={() => fetchSuggestions()} placeholder="Search your network...">
     <option-box>
         <option-header>Advanced Options</option-header>
         <option-block>
@@ -24,6 +40,14 @@
             </select>
         </option-block>
     </option-box>
+    <suggestions>
+        {#each suggestions as suggestion}
+            <suggestion>
+                <name>{suggestion.name}</name>
+                <type>Company</type>
+            </suggestion>
+        {/each}
+    </suggestions>
 </searchbar>
 
 <style>
@@ -34,6 +58,40 @@
 
         width: 100%;
         max-width: 50%;
+    }
+
+    suggestions {
+        display: inline-block;
+        background-color: #F8F8F8;
+        border-radius: 8px;
+
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border: 2px solid #00000066;
+        border-top: none;
+
+        width: 50%;
+    }
+
+    suggestion {
+        display: block;
+        padding: 8px;
+        border-bottom: 2px solid #00000066;
+    }
+
+    suggestion:last-child {
+        border-bottom: none;
+    }
+
+    suggestion name {
+        display: block;
+        font-weight: bold;
+        /*font-size: 1.1em;*/
+    }
+
+    suggestion type {
+        opacity: 0.7;
+        /*font-size: 0.9em;*/
     }
 
     option-header {
