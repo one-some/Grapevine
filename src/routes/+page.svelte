@@ -2,10 +2,15 @@
     import SearchBar from "./SearchBar.svelte"
     import SideBar from "./SideBar.svelte"
     import PartnerCard from "$lib/PartnerCard.svelte"
+
+    import type { PageData } from "./$types";
+    export let data: PageData;
 </script>
 
 <page>
     <h1>Grapevine</h1>
+
+    <p>{data.hello}</p>
 
     <SearchBar />
     <SideBar />
