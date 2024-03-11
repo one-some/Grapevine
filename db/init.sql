@@ -8,6 +8,10 @@ CREATE TABLE orgs(
     employee_count INTEGER NOT NULL
 );
 
+INSERT INTO orgs(name, desc, org_type, employee_count) VALUES("Cyanhof Floors & Roofing", "Serving northeast Lousiana for 125 years.", "FOR_PROFIT", 47);
+INSERT INTO orgs(name, desc, org_type, employee_count) VALUES("Evil McDonalds", "Downright malicious.", "FOR_PROFIT", 923);
+INSERT INTO orgs(name, desc, org_type, employee_count) VALUES("Counting Sheep Co.", "We sleep so you don't have to!", "NON_PROFIT", 18);
+
 CREATE TABLE donations(
     id INTEGER PRIMARY KEY,
     reason TEXT NOT NULL,

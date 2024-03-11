@@ -1,4 +1,4 @@
-import {Database, row} from 'better-sqlite3';
+import Database from 'better-sqlite3';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
 
@@ -15,22 +15,21 @@ interface SQLClause {
     values: any[];
 }
 
-enum OrgType {
-    ForProfit,
-    NonProfit
+interface SearchParams {
+    name?: string;
+    desc?: string;
+    offset?: number;
+    limit?: number;
+}
+    
+
+export enum OrgType {
+    // Must match SQL enum verification
+    FOR_PROFIT,
+    NON_PROFIT,
 }
 
-namespace OrgType {
-    export function fromDb(orgType: string): OrgType {
-        switch (orgType) {
-            case "FOR_PROFIT": return OrgType.ForProfit;
-            case "NON_PROFIT": return OrgType.NonProfit;
-            default: throw new Error(`Invalid org '${orgType}'`);
-        }
-    }
-}
-
-class Organization {
+export class Organization {
     // SECURITY: Direct SQL, beware!
     static FullSelectCriteria = [
         "id",
@@ -60,12 +59,12 @@ class Organization {
         this.employeeCount = employeeCount;
     }
 
-    static fromSQLRow(row: row): Organization {
+    static fromSQLRow(row: any): Organization {
         return new Organization(
             row.id,
             row.name,
             row.desc,
-            OrgType.fromDb(row.org_type),
+            OrgType[row.org_type as keyof typeof OrgType],
             row.employee_count
         );
     }
@@ -75,7 +74,11 @@ class Organization {
         return Organization.fromSQLRow(row);
     }
 
-    static search(name?: string, desc?: string, offset: number = 0, limit: number = 25): Organization[] {
+    static search({ name, desc, offset = 0, limit = 25}: SearchParams = {}): Organization[] {
+        // Not terribly pleased with the singleton type thing but it's the
+        // best way for typed named parameters until
+        // https://github.com/microsoft/TypeScript/issues/29526
+
         let whereClauses: SQLClause[] = [];
 
         if (name) {
@@ -104,7 +107,7 @@ class Organization {
 
         console.log("[query]", query);
 
-        const rows: row[] = db.prepare(query).all(queryParams);
+        const rows: any[] = db.prepare(query).all(queryParams);
         return rows.map(row => Organization.fromSQLRow(row));
     }
 }
