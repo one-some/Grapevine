@@ -3,7 +3,7 @@
 CREATE TABLE orgs(
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    desc TEXT NOT NULL,
+    desc TEXT,
     org_type TEXT CHECK(org_type IN ('FOR_PROFIT', 'NON_PROFIT')) NOT NULL,
     employee_count INTEGER NOT NULL
 );
