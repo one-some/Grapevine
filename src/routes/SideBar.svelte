@@ -8,8 +8,8 @@
 
     <hr>
 
-    <SidebarButton text="We're living in a" />
-    <SidebarButton text="Sand World" />
+    <SidebarButton text="Home" link="/" />
+    <SidebarButton text="Search" link="/search" />
     <SidebarButton text="Woohoh yeahh" />
     <SidebarButton text="Bababababa" />
     <SidebarButton text="External communication" />

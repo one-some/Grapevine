@@ -1,11 +1,13 @@
 <script lang="ts">
     export let text;
+    export let link = '/';
 </script>
 
-<sidebar-button>
-{text}
-</sidebar-button>
-
+<a href={link}>
+    <sidebar-button>
+    {text}
+    </sidebar-button>
+</a>
 <style>
     sidebar-button {
         display: flex;
