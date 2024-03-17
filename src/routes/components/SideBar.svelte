@@ -10,7 +10,7 @@
 
     <SidebarButton text="Home" link="/" />
     <SidebarButton text="Search" link="/search" />
-    <SidebarButton text="Woohoh yeahh" />
+    <SidebarButton text="Contacts" link="contacts" />
     <SidebarButton text="Bababababa" />
     <SidebarButton text="External communication" />
 </sidebar>
