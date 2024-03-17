@@ -44,6 +44,7 @@ export class Organization {
     desc: string;
     orgType: OrgType;
     employeeCount: number;
+    tags: string[];
 
     constructor(
         id: number,
@@ -51,12 +52,14 @@ export class Organization {
         desc: string,
         orgType: OrgType,
         employeeCount: number,
+        tags: string[],
     ) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.orgType = orgType;
         this.employeeCount = employeeCount;
+        this.tags = tags;
     }
 
     static fromSQLRow(row: any): Organization {
@@ -65,7 +68,8 @@ export class Organization {
             row.name,
             row.desc,
             OrgType[row.org_type as keyof typeof OrgType],
-            row.employee_count
+            row.employee_count,
+            []
         );
     }
 

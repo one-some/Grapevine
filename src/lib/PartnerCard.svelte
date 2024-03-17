@@ -1,14 +1,16 @@
 <script lang="ts">
+    import type { Organization } from "./db.server";
+
+    export let partner: Organization;
 </script>
 
 <partner-card>
-    <name>Cool Enterprises</name>
+    <name>{partner.name}</name>
     <faint>Tags:</faint>
     <tag-collection>
-        <tag>education</tag>
-        <tag>testing-materials</tag>
-        <tag>fundraising</tag>
-        <tag>cool-stuff</tag>
+        {#each partner.tags as tag}
+            <tag>{tag}</tag>
+        {/each}
     </tag-collection>
     <actions>
         <contact-button>
