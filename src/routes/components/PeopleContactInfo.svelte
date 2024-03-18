@@ -1,13 +1,21 @@
-<script lang="ts">
-    export let name, org_type, desc;
+<script>
+    export let name, phone_number, email;
 </script>
-<a href="/orgs/{name}" id="contact-box">
-    <h1>{name}</h1>
-    <div id="contact-subtext">
-        <h2>Type: {#if org_type == "FOR_PROFIT"}For Profit{:else}Non-Profit{/if}</h2>
-        <h2>Description: {desc}</h2>   
+
+
+<div id="people-contact-box">
+    <h1>
+        {name}
+    </h1>
+    <div>
+        <h2>
+            Phone Number: {phone_number}
+        </h2>
+        <h2>
+            E-mail: {email}
+        </h2>
     </div>
-</a>
+</div>
 
 <style>
     h2{
@@ -19,7 +27,7 @@
         margin-bottom: 0px;
     }
 
-    #contact-box {
+    #people-contact-box {
         /* HACK: 100% - margin * 2 */
         width: calc(100% - 16px);
         padding: 5px;
@@ -31,9 +39,6 @@
         display: block;
     }
 
-    #contact-box:hover{
-        filter:brightness(80%);
-    }
 
     #contact-subtext {
         color: grey;
