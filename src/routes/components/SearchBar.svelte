@@ -7,6 +7,8 @@
         {name: "Hello. Babababa"},
     ];
 
+    let focused = false;
+
     let searchQuery;
 
     function fetchSuggestions() {
@@ -15,39 +17,48 @@
 </script>
 
 <searchbar>
-    <input bind:value={searchQuery} on:input={() => fetchSuggestions()} placeholder="Search your network...">
-    <option-box>
-        <option-header>Advanced Options</option-header>
-        <option-block>
-            <label>Company Type</label>
-            <select>
-                <option>Nonprofit</option>
-                <option>LLC</option>
-                <option>401K Invest</option>
-            </select>
-        </option-block>
-        <option-block>
-            <label>Sort by</label>
-            <select>
-                <option>Prior Contribution (Desc.)</option>
-                <option>Prior Contribution (Asc.)</option>
-                <option>Name (Desc.)</option>
-                <option>Name (Asc.)</option>
-                <option>Last Contribution Date (Desc.)</option>
-                <option>Last Contribution Date (Asc.)</option>
-                <option>Employee Count (Desc.)</option>
-                <option>Employee Count (Asc.)</option>
-            </select>
-        </option-block>
-    </option-box>
-    <suggestions>
-        {#each suggestions as suggestion}
-            <suggestion>
-                <name>{suggestion.name}</name>
-                <type>Company</type>
-            </suggestion>
-        {/each}
-    </suggestions>
+    <input
+        bind:value={searchQuery}
+        on:input={() => fetchSuggestions()}
+        on:focus={() => focused = true}
+        on:blur={() => focused = false}
+        placeholder="Search your network..."
+    >
+
+    {#if focused}
+        <option-box>
+            <option-header>Advanced Options</option-header>
+            <option-block>
+                <label>Company Type</label>
+                <select>
+                    <option>Nonprofit</option>
+                    <option>LLC</option>
+                    <option>401K Invest</option>
+                </select>
+            </option-block>
+            <option-block>
+                <label>Sort by</label>
+                <select>
+                    <option>Prior Contribution (Desc.)</option>
+                    <option>Prior Contribution (Asc.)</option>
+                    <option>Name (Desc.)</option>
+                    <option>Name (Asc.)</option>
+                    <option>Last Contribution Date (Desc.)</option>
+                    <option>Last Contribution Date (Asc.)</option>
+                    <option>Employee Count (Desc.)</option>
+                    <option>Employee Count (Asc.)</option>
+                </select>
+            </option-block>
+        </option-box>
+        <suggestions>
+            {#each suggestions as suggestion}
+                <suggestion>
+                    <name>{suggestion.name}</name>
+                    <type>Company</type>
+                </suggestion>
+            {/each}
+        </suggestions>
+    {/if}
 </searchbar>
 
 <style>
