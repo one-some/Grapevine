@@ -1,28 +1,36 @@
 <script lang="ts">
-    let suggestions = [
-        {name: "Hello. Babababa"},
-        {name: "Hello. Babababa"},
-        {name: "Hello. Babababa"},
-        {name: "Hello. Babababa"},
-        {name: "Hello. Babababa"},
-    ];
+    interface Suggestion {
+        name: string;
+    }
 
-    let focused = false;
+    let suggestions: Suggestion[] = [];
 
-    let searchQuery;
+    let focused: boolean = false;
+    let searchQuery: string;
 
     async function fetchSuggestions() {
+        /* Fetches suggestions from the reactive string searchQuery */
+
+        // Fast fail if there is no search query.
         if (!searchQuery) {
             suggestions = [];
             return;
         }
 
         const r = await fetch(`/api/search.json?name=${searchQuery}`);
+
+        // Gracefully fail in case of backend error
+        if (!r.ok) {
+            console.error("Request returned bad response code.");
+            return;
+        }
+
+        // Suggestions is reactive and creates suggestions in the
+        // searchbar component
         const j = await r.json();
         suggestions = [];
 
         for (const result of j.results) {
-            console.log(result);
             suggestions.push({name: result.name});
         }
     }
