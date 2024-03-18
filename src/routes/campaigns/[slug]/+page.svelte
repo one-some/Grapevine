@@ -1,12 +1,12 @@
 <script>
-    import Campaign from "../../components/Campaign.svelte";
+    import CampaignMainPage from "../../components/CampaignMainPage.svelte";
     import Donation from "../../components/Donation.svelte";
 
     export let data;
     console.log(data);
 </script>
 
-<Campaign {...data.campaign} />
+<CampaignMainPage {...data.campaign} />
 
 {#each data.donations.names as name, i}
 
