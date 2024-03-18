@@ -1,40 +1,43 @@
-<div id="contact-box">
-    <h1>
-        Name
-    </h1>
-    <br>
-    <br>
+<script lang="ts">
+    export let name, org_type, desc;
+</script>
+<a href="/orgs/{name}" id="contact-box">
+    <h1>{name}</h1>
     <div id="contact-subtext">
-        <br>
-        <br>
-        <br>
-        <h2>
-            Type, Description:
-        </h2>
+        <h2>Type: {#if {org_type} == "FOR_PROFIT"}For Profit{:else}Non-Profit{/if}</h2>
+        <h2>Description: {desc}</h2>
         
     </div>
-</div>
+</a>
 
 <style>
     h2{
         font-size: 15px;
     }
+
     h1 {
         margin-left: 10px;
         margin-bottom: 0px;
     }
+
     #contact-box {
-        display: flex;
+        /* HACK: 100% - margin * 2 */
+        width: calc(100% - 16px);
+        padding: 5px;
+        margin: 8px;
+
         background-color: white;
         border-color: black;
         border-width: 1px;
-        align-self:stretch;
-        margin-left: 225px;
+        display: block;
+    }
+
+    #contact-box:hover{
+        filter:brightness(80%);
     }
 
     #contact-subtext {
         color: grey;
-        clear: both;
         display: block;
     }
 </style>

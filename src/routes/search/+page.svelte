@@ -40,10 +40,7 @@
 </script>
 
 <p>{data.hello}</p>
-
 <SearchBar />
-
 {#each searchResults as result}
     <PartnerCard partner={result}/>
 {/each}
-

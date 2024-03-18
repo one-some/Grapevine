@@ -7,5 +7,6 @@
 </script>
 
 
-
-<Contact />
+{#each data.entries as contact}
+    <Contact {...contact}/>
+{/each}
