@@ -52,5 +52,7 @@
         flex-direction: column;
         align-items: center;
         position: relative;
+        height: 100%;
+        overflow-y: auto;
     }
 </style>

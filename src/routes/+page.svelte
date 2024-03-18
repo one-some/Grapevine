@@ -5,6 +5,7 @@
 <cont><greeting>Hello, Nicholas</greeting></cont>
 <SearchBar />
 
+<!--
 <boxes>
     <labeled-box id="recent-activity">
         <box-label>Recent Activity</box-label>
@@ -27,6 +28,7 @@
         </box-content>
     </labeled-box>
 </boxes>
+-->
 
 <style>
     cont {

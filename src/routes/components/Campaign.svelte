@@ -27,7 +27,8 @@
     #progress-bar {
         background-color: grey;
         height: 30px;
-        width: calc(100% - 32px);
+    /*width: calc(100% - 32px);*/
+        width: 50%;
         align-self: center;
         border-radius: 15px;
         margin-bottom: 10px;

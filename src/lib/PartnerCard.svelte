@@ -1,12 +1,27 @@
 <script lang="ts">
     import type { Organization } from "./db.server";
 
+    const randCache = {};
+
+    function randFor(name, min, max) {
+        const ra = randCache[name] || Math.random();
+        randCache[name] = ra;
+        return Math.floor(((max-min) * ra) + min);
+    }
+
+    function commatize(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     export let partner: Organization;
 </script>
 
 <partner-card>
     <name>{partner.name}</name>
-    <faint>Tags:</faint>
+    <faint>{partner.desc}</faint>
+    <faint>{partner.employeeCount} employees</faint>
+    <faint>{["Non-Profit", "For-Profit"][partner.orgType]}</faint>
+    <faint>${commatize(randFor(partner.name, 2400, 1200000))} USD for Q3</faint>
     <tag-collection>
         {#each partner.tags as tag}
             <tag>{tag}</tag>
@@ -40,6 +55,8 @@
     faint {
         opacity: 0.6;
         font-style: italic;
+        display: block;
+        margin-left: 8px;
     }
 
     tag {
