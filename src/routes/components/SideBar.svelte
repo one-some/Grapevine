@@ -12,7 +12,6 @@
     <SidebarButton text="Search" link="/search" />
     <SidebarButton text="Contacts" link="/contacts" />
     <SidebarButton text="Campaigns" link="/campaigns"/>
-    <SidebarButton text="External communication" />
 </sidebar>
 
 <style>

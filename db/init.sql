@@ -36,7 +36,7 @@ INSERT INTO orgs(name, desc, org_type, employee_count) VALUES('Origin Bank', 'Se
 
 CREATE TABLE donations(
     id INTEGER PRIMARY KEY,
-    reason TEXT NOT NULL,
+    reason TEXT,
     org_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
     contact_id INTEGER NOT NULL,
@@ -44,12 +44,25 @@ CREATE TABLE donations(
     time INTEGER NOT NULL
 );
 
+INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(1, 1, 0, 2000);
+INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(2, 1, 0, 3000);
+INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(2, 3, 0, 4000);
+INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(3, 4, 0, 2000);
+
 CREATE TABLE campaigns(
     id INTEGER PRIMARY KEY,
     -- TODO: WARNUNIQUE
     title TEXT NOT NULL,
-    desc TEXT NOT NULL
+    desc TEXT NOT NULL,
+    money_needed INTEGER NOT NULL,
+    money_donated INTEGER NOT NULL,
+    owner_id INTEGER NOT NULL
 );
+
+INSERT INTO campaigns(title, desc, money_needed, money_donated, owner_id) VALUES('Football State Championship', 'Our football team needs funding to travel to the state championship.', 10000, 5880, 1);
+INSERT INTO campaigns(title, desc, money_needed, money_donated, owner_id) VALUES('Eco Car', 'We need funding to purchase parts for our eco-car team.', 5000, 3208, 1);
+INSERT INTO campaigns(title, desc, money_needed, money_donated, owner_id) VALUES('Robotics', 'Our robotics team needs funding to purchase new motors.', 2000, 1029, 1);
+INSERT INTO campaigns(title, desc, money_needed, money_donated, owner_id) VALUES('FBLA', 'Our FBLA team needs funding to go to the State Conference.', 2300, 1215, 1);
 
 CREATE TABLE contacts(
     id INTEGER PRIMARY KEY,
