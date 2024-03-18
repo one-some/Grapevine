@@ -2,6 +2,10 @@
     import SideBar from "./components/SideBar.svelte"
 </script>
 
+<svelte:head>
+    <title>Grapevine</title>
+</svelte:head>
+
 <page>
     <SideBar />
     <content>
