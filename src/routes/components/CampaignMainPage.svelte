@@ -4,7 +4,7 @@
     console.log(title, desc);
 </script>
 
-<a href="campaigns/{title}" id="campaign-entry">
+<div id="campaign-entry">
     <h1>
         {title}
     </h1>
@@ -17,12 +17,8 @@
     <div id="progress-bar">
         <div id="bar-progress"></div>
     </div>
-</a>
+</div>
 <style>
-
-    #campaign-entry:hover{
-        filter:brightness(80%);
-    }
 
     #progress-bar {
         background-color: grey;
@@ -58,17 +54,5 @@
         color: grey;
         font-size: 15px;
     }
-    a:link { 
-  text-decoration: none; 
-} 
-a:visited { 
-  text-decoration: none; 
-} 
-a:hover { 
-  text-decoration: none; 
-} 
-a:active { 
-  text-decoration: none; 
-}
 
 </style>
