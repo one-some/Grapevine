@@ -7,6 +7,7 @@
 
     let focused: boolean = false;
     let searchQuery: string;
+    export let onSearch = function() {};
 
     async function fetchSuggestions() {
         /* Fetches suggestions from the reactive string searchQuery */
@@ -34,6 +35,11 @@
             suggestions.push({name: result.name});
         }
     }
+
+    function keyDown(event) {
+        if (event.key !== "Enter") return;
+        onSearch(searchQuery);
+    }
 </script>
 
 <searchbar>
@@ -42,6 +48,7 @@
         on:input={() => fetchSuggestions()}
         on:focus={() => focused = true}
         on:blur={() => focused = false}
+        on:keydown={keyDown}
         placeholder="Search your network..."
     >
 

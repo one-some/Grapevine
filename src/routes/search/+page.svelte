@@ -11,12 +11,12 @@
     let searchResults: Organization[];
     $: searchResults = [];
     let modalBind;
-    let modalHidden = true;
+    let modalHidden: boolean = true;
+    let searchQuery: string;
 
     async function updateSearchResults() {
-        const params = {
-            name: "e",
-        };
+        if (!searchQuery) return;
+        const params = { name: searchQuery };
 
         // TODO: Pretty sure theres a native JS interface for this
         let paramParts = [];
@@ -30,19 +30,22 @@
         const request = await fetch(`/api/search.json${paramString}`);
         const j = await request.json();
 
-        // Weird syntax to update reactively
-        searchResults = [...searchResults, ...j.results];
+        searchResults = [...j.results];
+    }
+
+    function onSearch(query) {
+        searchQuery = query;
+        updateSearchResults();
     }
 
     onMount(() => {
         updateSearchResults();
-        console.log("HEllo", searchResults)
         document.body.appendChild(modalBind);
     });
 </script>
 
 <p>{data.hello}</p>
-<SearchBar />
+<SearchBar {onSearch}/>
 <big-button id="new-button" on:click={() => modalHidden = false}>Add Partner</big-button>
 
 {#each searchResults as result}
