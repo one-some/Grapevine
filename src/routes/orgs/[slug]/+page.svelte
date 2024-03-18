@@ -15,8 +15,10 @@
 </div> -->
 
 <div id="peoples_contact_info">
+    <h3>People</h3>
     {#each data.people as info}
     <Peoples_contact_info {...info} />
+    <br>
     {/each}
 </div>
 
@@ -26,8 +28,8 @@
 
 <style>
 
-    #peoples_contact_info {
-        display: flex;
+    h3 {
+        font-size: 30px;
     }
 
     #org_data {

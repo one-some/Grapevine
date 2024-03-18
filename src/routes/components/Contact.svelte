@@ -10,6 +10,18 @@
 </a>
 
 <style>
+    a:link { 
+  text-decoration: none; 
+} 
+a:visited { 
+  text-decoration: none; 
+} 
+a:hover { 
+  text-decoration: none; 
+} 
+a:active { 
+  text-decoration: none; 
+}
     h2{
         font-size: 15px;
     }

@@ -7,7 +7,7 @@
     <h1>
         {name}
     </h1>
-    <div>
+    <div id="people-contact-subtext">
         <h2>
             Phone Number: {phone_number}
         </h2>
@@ -40,7 +40,7 @@
     }
 
 
-    #contact-subtext {
+    #people-contact-subtext {
         color: grey;
         display: block;
     }
