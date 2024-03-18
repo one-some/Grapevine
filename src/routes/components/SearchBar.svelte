@@ -8,6 +8,9 @@
     let focused: boolean = false;
     let searchQuery: string;
     export let onSearch = function() {};
+    export let onSort = function() {};
+
+    function sort() { onSort(); }
 
     async function fetchSuggestions() {
         /* Fetches suggestions from the reactive string searchQuery */
@@ -31,23 +34,28 @@
         const j = await r.json();
         suggestions = [];
 
+        let ttl = 5;
+
         for (const result of j.results) {
             suggestions.push({name: result.name});
+            ttl--;
+            if (!ttl) break;
         }
     }
 
     function keyDown(event) {
         if (event.key !== "Enter") return;
         onSearch(searchQuery);
+        focused = false;
     }
 </script>
 
-<searchbar>
+<searchbar
+    on:click={() => focused = true}
+>
     <input
         bind:value={searchQuery}
         on:input={() => fetchSuggestions()}
-        on:focus={() => focused = true}
-        on:blur={() => focused = false}
         on:keydown={keyDown}
         placeholder="Search your network..."
     >
@@ -58,18 +66,17 @@
             <option-block>
                 <label>Company Type</label>
                 <select>
-                    <option>Nonprofit</option>
-                    <option>LLC</option>
-                    <option>401K Invest</option>
+                    <option>For-Profit</option>
+                    <option>Non-Profit</option>
                 </select>
             </option-block>
             <option-block>
                 <label>Sort by</label>
-                <select>
-                    <option>Prior Contribution (Desc.)</option>
-                    <option>Prior Contribution (Asc.)</option>
+                <select on:change={sort}>
                     <option>Name (Desc.)</option>
                     <option>Name (Asc.)</option>
+                    <option>Prior Contribution (Desc.)</option>
+                    <option>Prior Contribution (Asc.)</option>
                     <option>Last Contribution Date (Desc.)</option>
                     <option>Last Contribution Date (Asc.)</option>
                     <option>Employee Count (Desc.)</option>

@@ -38,14 +38,22 @@
         updateSearchResults();
     }
 
+    function onSort() {
+        const x = Array.from(searchResults);
+        for (let i = x.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [x[i], x[j]] = [x[j], x[i]];
+        }
+        searchResults = [...x];
+    }
+
     onMount(() => {
         updateSearchResults();
         document.body.appendChild(modalBind);
     });
 </script>
 
-<p>{data.hello}</p>
-<SearchBar {onSearch}/>
+<SearchBar {onSearch} {onSort}/>
 <big-button id="new-button" on:click={() => modalHidden = false}>Add Partner</big-button>
 
 {#each searchResults as result}
