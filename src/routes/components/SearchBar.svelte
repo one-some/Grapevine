@@ -11,8 +11,20 @@
 
     let searchQuery;
 
-    function fetchSuggestions() {
-        suggestions[0].name = searchQuery;
+    async function fetchSuggestions() {
+        if (!searchQuery) {
+            suggestions = [];
+            return;
+        }
+
+        const r = await fetch(`/api/search.json?name=${searchQuery}`);
+        const j = await r.json();
+        suggestions = [];
+
+        for (const result of j.results) {
+            console.log(result);
+            suggestions.push({name: result.name});
+        }
     }
 </script>
 
