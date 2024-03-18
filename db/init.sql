@@ -40,13 +40,13 @@ CREATE TABLE donations(
     org_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
     contact_id INTEGER NOT NULL,
-    amount_usd REAL NOT NULL,
-    time INTEGER NOT NULL
+    amount_usd REAL NOT NULL
+    --time INTEGER NOT NULL
 );
 
 INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(1, 1, 0, 2000);
 INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(2, 1, 0, 3000);
-INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(2, 3, 0, 4000);
+INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(2, 3, 0, 1029);
 INSERT INTO donations(org_id, campaign_id, contact_id, amount_usd) VALUES(3, 4, 0, 2000);
 
 CREATE TABLE campaigns(

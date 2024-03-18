@@ -17,7 +17,7 @@
 <div id="peoples_contact_info">
     <h3>People</h3>
     {#each data.people as info}
-    <Peoples_contact_info {...info} />
+    <Peoples_contact_info name={info.first_name + " " + info.last_name} phone_number={info.phone} email={info.email} />
     <br>
     {/each}
 </div>
