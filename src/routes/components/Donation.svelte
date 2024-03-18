@@ -1,5 +1,5 @@
 <script>
-    export let org_name, amount_us;
+    export let org_name, amount_usd;
 </script>
 
 

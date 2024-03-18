@@ -7,10 +7,10 @@ export function load({ params }) {
     console.log(id.id);
     const campaign = db.prepare("SELECT title, desc, money_needed, money_donated FROM campaigns WHERE id = ?").get(id.id);
     console.log(campaign);
-    const donations = {
-        name: db.prepare("SELECT name FROM orgs WHERE id = (SELECT org_id FROM donations WHERE campaign_id = ?)").all(id.id),
-        amount: db.prepare("SELECT amount_usd FROM donations WHERE campaign_id = ?").all(id.id)
-    };
+    var donations = {
+        names: db.prepare("SELECT name FROM orgs WHERE id IN (SELECT org_id FROM donations WHERE campaign_id = ?)").all(id.id),
+        moneys: db.prepare("SELECT amount_usd FROM donations WHERE campaign_id = ?").all(id.id)
+    }
     console.log(donations);
 	return {
         campaign: campaign,
