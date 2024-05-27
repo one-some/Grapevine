@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SearchBar from "../components/SearchBar.svelte"
+    import SearchBar from "../../components/SearchBar.svelte"
 
     import PartnerCard from "$lib/PartnerCard.svelte"
 

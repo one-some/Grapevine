@@ -1,6 +1,6 @@
 <script>
-    import CampaignMainPage from "../../components/CampaignMainPage.svelte";
-    import Donation from "../../components/Donation.svelte";
+    import CampaignMainPage from "../../../components/CampaignMainPage.svelte";
+    import Donation from "../../../components/Donation.svelte";
 
     export let data;
     console.log(data);
