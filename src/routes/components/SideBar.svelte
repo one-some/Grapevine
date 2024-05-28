@@ -12,6 +12,7 @@
     <SidebarButton text="Search" link="/search" />
     <SidebarButton text="Contacts" link="/contacts" />
     <SidebarButton text="Campaigns" link="/campaigns"/>
+    <SidebarButton text="Documentation" link="/documentation"/>
 
     <SidebarButton text="Logout" link="logout"/>
 </sidebar>
