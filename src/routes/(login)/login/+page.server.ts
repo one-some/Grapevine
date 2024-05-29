@@ -38,7 +38,7 @@ export const actions = {
 
         let userinfo;
         try {
-            userinfo = db.prepare("SELECT password, salt FROM users WHERE username = ?").all(data.get("username"));
+            userinfo = db.prepare("SELECT password, salt FROM users WHERE email = ?").all(data.get("email"));
         } catch (error) {
             return fail(422, {"message": "Invalid Credentials!"})
         }
@@ -49,7 +49,6 @@ export const actions = {
 
         const password = userinfo[0].password;
         const salt = userinfo[0].salt
-
 
         if(password == CheckPassHash(data.get('password'), salt)){
 
