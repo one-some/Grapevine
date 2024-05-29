@@ -1,5 +1,5 @@
 import { redirect, fail } from '@sveltejs/kit';
-import { pbkdf2Sync } from "crypto";
+import { scryptSync } from "crypto";
 import Database from 'better-sqlite3';
 
 const db = new Database("db/main.db", {});
@@ -18,21 +18,16 @@ export function load({ cookies }) {
     }
 }
 
-function CheckPassHash(texttohash : string, salt : string) {
-    const passwordhash = pbkdf2Sync(texttohash, salt, 9001, 256, 'sha512');
-    return passwordhash.toString('hex');
-}
+// function CheckPassHash(texttohash : string, salt : string) {
+//     const passwordhash = pbkdf2Sync(texttohash, salt, 9001, 256, 'sha512');
+//     return passwordhash.toString('hex');
+// }
 
-function salt() {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 16) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
+
+// crypto.randomBytes(16).toString('hex');
+
+function CheckPassHash(texttohash : string, salt : string) {
+    return scryptSync(texttohash, salt, 64, {N: 16384, r: 8, p: 1}).toString('hex')  //  https://www.tarsnap.com/scrypt/scrypt-slides.pdf reccomends this on slide 17?
 }
 
 export const actions = {
@@ -55,9 +50,8 @@ export const actions = {
         const password = userinfo[0].password;
         const salt = userinfo[0].salt
 
-        if(password == CheckPassHash(data.get('password'), salt)){
 
-            console.log('authenticated')
+        if(password == CheckPassHash(data.get('password'), salt)){
 
             cookies.set('logged_in', '1', { path: '/'});
             throw redirect(303, "/");
