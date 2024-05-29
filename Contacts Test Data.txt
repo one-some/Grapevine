@@ -1,0 +1,101 @@
+
+'REV Robotics'
+	Waldo Knight (748) 230-1659 wknight@rev.com
+	Marcel Snyder (891) 465-2370 msnyder@rev.com
+	Jasmine Potter (813) 046-7529 jpotter@rev.com
+'Andymark'
+	David McCarthy (218) 345-0967 davidm@andymark.com
+	Ann Hickman (759) 603-1842 annh@andymark.com
+	Karen Townsend (205) 837-1946 karent@andynark.com
+'McMaster-Carr'
+	Isabel Keller (742) 150-8269 isab.kell@mcmastercarr.com	
+	Sarah Walsh (487) 063-2951 sara.wals@mcmastercarr.com
+	Ann Pineda (762) 053-9184 ann.pine@mcmastercarr.com
+'Radiance Technologies'
+	Richard Meyer (652) 198-3407 richard.meyer@radiance.org
+	Glenn Terrell (593) 672-1408 glenn.terrell@radiance.org
+	Aron Simon (901) 427-8653 aron.simon@radiance.org
+'Kid Prints'
+	Gavin McCown (471) 690-8235 gavin.mccown@kidprints.com
+	Cedric Serio (038) 791-5246 cedric.serio@kidprints.com
+	David Post (381) 649-2057 david.post@kidprints.com
+'NASA'
+	Katelyn Finch (521) 846-9370 kafinch@nasa.gov
+	Gail Ford (703) 268-1594 gkford@nasa.gov
+	Edgar Meyers (251) 739-0684 enmeyers@nasa.gov
+'Lockheed Martin'
+	Earl Stanley (968) 370-4152 stanley02@lockheedmartin.com
+	Amina Fry (683) 957-4210 fry03@lockheedmartin.com
+	Heidi Sanford (462) 309-7518 sanford00@lockheedmartin.com
+'Boeing'
+	Theodore Washington (308) 692-5471 theodorew@boeing.org
+	Kayne Snow (481) 236-0975 kaynes@boeing.org
+	Lula Wood (167) 209-4285 lulaw@boeing.org
+'Space Photonics'
+	Dulcie Espinoza (167) 925-0348 dulcie.espinoza@spacephotonics.com
+	Alejandro Leonard (582) 419-0673 alejandro.leonard@spacephotonics.com
+	Erica Bishop (095) 236-1847 erica.bishop@spacephotonincs.com
+'Ruston Brick'
+	Nicole Stevenson (087) 194-2536 nstevenson@rustonbrick.com
+	Rico Jensen (039) 815-4672 rjensen@rustonbrick.com
+	Roosevelt Guerrero (541) 037-9268 rguerrero@rustonbrick.com
+'Parish Press'
+	Richie Tapia (257) 906-8431 rich.tapi@parishpress.org
+	Calum Decker (871) 406-2395 calu.deck@parishpress.org
+	Hope Lam (367) 052-4981 hope.lam@parishpress.org
+'Cracker Barrel'
+	Leenaj Crosby (301) 876-9524 l.crosby@crackerbarrel.com
+	Annalise Dennis (013) 549-8276 a.dennis@crackerbarrel.com
+	Jessica Keith (437) 580-1269 j.keith@crackerbarrel.com
+'Intralox'
+	Steven Hooper (801) 263-5794 steven.hooper@intralox.com
+	Chaya Powell (637) 485-1092 chaya.powell@intralox.com
+	Angel Adkins (423) 196-8507 angel.adkins@intralox.com
+'National Instruments'
+	Alisa Silva (839) 604-7125 asilva@ni.org
+	Freddy Humphrey (732) 014-6985 fhumphrey@ni.org
+	Matilda Matthews (275) 638-4901 mmatthews@ni.org
+'Apple'
+	Jenna Walls (092) 176-3854 jw09@apple.org
+	Ameera Hobbs (594) 217-0836 ah18@apple.org
+	Orla Watkins (310) 524-7896 ow21@apple.org
+'AT&T'
+	Musa Moyer (295) 068-7314 musam@att.com
+	Cory Nelson (315) 609-8247 coryn@att.com
+	Norma McCoy (953) 817-4260 normam@att.com
+'A&H Games'
+	Ty Gordon (174) 052-6893 tgordon@ahgames.com
+	Elinor Wright (859) 063-1724 ewright@ahgames.com
+	Harold Summers (351) 840-2976 hsummers@ahgames.com
+'El Jarrito'
+	Jaime Ayala (956) 140-3728 jaim.ayal@eljaritto.com
+	Aamir Flores (174) 062-9358 aami.flor@eljaritto.com
+	Tomasz Villa (968) 450-3172 toma.vill@eljarrito.com
+'Tacos the Guero'
+	Mark Wilkerson (506) 189-3724 mwilkerson@tacosguero.com
+	Lilian Medina (047) 283-1569 lmedina@tacosguero.com
+	Sam Burgess (870) 346-2195 sburgess@tacosguero.com
+'Gibson’s'
+	Georgie Connolly (425) 780-6193 georgie.connolly@gibsons.org
+	Milan Davila (357) 462-0981 milan.davila@gibsons.org
+	Lili Landry (732) 986-4501 lili.landry@gibsons.org
+'Exxon'
+	Johnathan Wang (913) 624-0578 jwang@exxon.com
+	Camila Hanson (578) 402-1936 chanson@exxon.com
+	Antonio Pacheco (792) 634-5108 apacheco@exxon.com
+'Shell'
+	Alma Matthams (025) 386-7941 admatthams@shell.com
+	Brendom Jenkins (834) 619-5720 bsjenkins@shell.com
+	Giovanni Preston (704) 695-1328 gipreston@shell.com
+'Walgreens'
+	Caroline Lang (168) 234-9507 caro.lang@walgreens.com
+	Constance Fletcher (768) 592-1430 cons.flet@walgreens.com
+	Tina Lynch (638) 914-7052 tina.lync@walgreens.com
+'Orange Leaf'
+	Jake Kidd (012) 564-7893 jake.kidd@orangeleaf.com
+	Tiago Moss (871) 945-0326 tiago.moss@orangeleaf.com
+	Tasneem Stein (821) 930-7456 tasneem.stein@orangeleaf.com
+'Origin Bank'
+	Theo Morrow (837) 520-6419 theom04@originbank.com
+	Keane Small (389) 625-0147 keanes02@originbank.com
+	Alivia Donnelly (694) 078-1352 aliviad01@originbank.com
