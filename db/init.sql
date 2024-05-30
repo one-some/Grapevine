@@ -8,6 +8,14 @@ CREATE TABLE orgs(
     employee_count INTEGER NOT NULL
 );
 
+CREATE TABLE users(
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULl,
+    salt TEXT NOT NULL
+);
+
 INSERT INTO orgs(name, desc, org_type, employee_count) VALUES('REV Robotics', 'Quality parts for STEM education', 'NON_PROFIT', 147);
 INSERT INTO orgs(name, desc, org_type, employee_count) VALUES('Andymark', 'Building the next generation of engineers', 'NON_PROFIT', 297);
 INSERT INTO orgs(name, desc, org_type, employee_count) VALUES('McMaster-Carr', 'Rapid delivery of any part you need', 'NON_PROFIT', 1078);
