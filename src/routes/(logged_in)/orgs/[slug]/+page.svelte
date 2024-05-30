@@ -1,5 +1,5 @@
 <script>
-    import Peoples_contact_info from "../../../components/PeopleContactInfo.svelte";
+    import Peoples_contact_info from "$lib/components/PeopleContactInfo.svelte";
     export let data;
     console.log(data);
 </script>

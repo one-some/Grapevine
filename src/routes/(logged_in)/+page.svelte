@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SearchBar from "../components/SearchBar.svelte"
+    import SearchBar from "$lib/components/SearchBar.svelte"
 </script>
 
 <cont><greeting>Hello, Nicholas</greeting></cont>

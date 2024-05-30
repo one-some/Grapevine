@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SideBar from "../components/SideBar.svelte"
+    import SideBar from "$lib/components/SideBar.svelte"
 </script>
 
 <svelte:head>

@@ -1,5 +1,5 @@
 <script>
-    import Topbar from "../../components/Topbar.svelte";
+    import Topbar from "$lib/components/Topbar.svelte";
     export let form;
 </script>
 <Topbar />
