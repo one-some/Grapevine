@@ -1,6 +1,13 @@
 <script>
     import Topbar from "$lib/components/Topbar.svelte";
-    export let form;
+    import { onMount } from "svelte";
+    export let form, data;
+
+    onMount(() => {
+        if(data.message){
+            alert(data.message);
+        }
+    })                                      //  If you can move this to a +page.ts, please do. Also, why is the syntax highlighting making it red????
 </script>
 <Topbar />
 

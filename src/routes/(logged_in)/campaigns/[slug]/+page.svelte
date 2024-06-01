@@ -3,7 +3,6 @@
     import Donation from "$lib/components/Donation.svelte";
 
     export let data;
-    console.log(data);
 </script>
 
 <CampaignMainPage {...data.campaign} />
