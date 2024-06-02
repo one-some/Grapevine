@@ -1,6 +1,6 @@
 <!-- i want icons but npm wants to pull some total nonsense and compile stuff likwe what the heck -->
 <script>
-    import Peoples_contact_info from "$lib/components/PeopleContactInfo.svelte";
+    // https://icon-sets.iconify.design/mdi/
     import IconHandshake from "virtual:icons/mdi/handshake";
     import IconContact from "virtual:icons/mdi/contact";
     import IconShop from "virtual:icons/mdi/shop";
@@ -8,6 +8,10 @@
     import IconWorker from "virtual:icons/mdi/worker";
     import IconAttachMoney from "virtual:icons/mdi/attach-money";
     import IconMoneyOff from "virtual:icons/mdi/money-off";
+    import IconPhone from "virtual:icons/mdi/phone";
+    import IconEmail from "virtual:icons/mdi/email";
+    import IconPerson from "virtual:icons/mdi/person";
+
     export let data;
     console.log(data);
 </script>
@@ -37,13 +41,13 @@
             <container>
                 {#each data.people as info}
                     <guy>
-                        <h2><IconContact />{`${info.first_name} ${info.last_name}`}</h2>
+                        <h2><IconPerson/>{`${info.first_name} ${info.last_name}`}</h2>
                         <field>
-                            <lab><IconGavel />Phone</lab>
+                            <lab><IconPhone />Phone</lab>
                             {info.phone}
                         </field>
                         <field>
-                            <lab><IconGavel />Email</lab>
+                            <lab><IconEmail />Email</lab>
                             <a href="mailto:{info.email}">{info.email}</a>
                         </field>
                     </guy>
@@ -133,6 +137,10 @@
 
     guy a {
         color: black;
+    }
+
+    guy field {
+        padding-left: 12px;
     }
 
     guy:hover {
