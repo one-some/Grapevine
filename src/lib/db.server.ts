@@ -20,6 +20,7 @@ interface SearchParams {
     desc?: string;
     offset?: number;
     limit?: number;
+    sort?: string;
 }
     
 
@@ -78,7 +79,13 @@ export class Organization {
         return Organization.fromSQLRow(row);
     }
 
-    static search({ name, desc, offset = 0, limit = 25}: SearchParams = {}): Organization[] {
+    static search({
+        name,
+        desc,
+        offset = 0,
+        limit = 25,
+        sort = "name_desc",
+    }: SearchParams = {}): Organization[] {
         // Not terribly pleased with the singleton type thing but it's the
         // best way for typed named parameters until
         // https://github.com/microsoft/TypeScript/issues/29526
@@ -104,12 +111,21 @@ export class Organization {
             }
         }
 
+        queryParts.push("ORDER BY " + {
+            // HACK: ASC and DESC are switched for name field because it's backwards 4 somereason.........!
+            "name_desc": "name ASC",
+            "name_asc": "name DESC",
+            "emp_count_desc": "employee_count DESC",
+            "emp_count_asc": "employee_count ASC",
+        }[sort]);
+
         queryParts.push("LIMIT ? OFFSET ?");
         queryParams.push(limit, offset);
 
         const query = queryParts.join(" ");
 
         console.log("[query]", query);
+        console.log("[query]", queryParams);
 
         const rows: any[] = db.prepare(query).all(queryParams);
         return rows.map(row => Organization.fromSQLRow(row));

@@ -16,7 +16,7 @@
     export let partner: Organization;
 </script>
 
-<partner-card>
+<a href="/orgs/{partner.name}" class="partner-card">
     <name>{partner.name}</name>
     <faint>{partner.desc}</faint>
     <faint>{partner.employeeCount} employees</faint>
@@ -32,11 +32,14 @@
             Contact
         </contact-button>
     </actions>
-</partner-card>
+</a>
 
 <style>
-    partner-card {
-        /* TODO: ??? */
+    .partner-card {
+        display: block;
+        text-decoration: none;
+        color: black;
+
         width: 530px;
         border: 2px solid gray;
         border-radius: 12px;

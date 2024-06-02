@@ -7,10 +7,8 @@
 
     let focused: boolean = false;
     let searchQuery: string;
-    export let onSearch = function() {};
-    export let onSort = function() {};
-
-    function sort() { onSort(); }
+    let sortChoice: HTMLSelectElement;
+    export let onSearch = function(query, sort) {};
 
     async function fetchSuggestions() {
         /* Fetches suggestions from the reactive string searchQuery */
@@ -43,9 +41,13 @@
         }
     }
 
+    function doSearch() {
+        onSearch(searchQuery, sortChoice.value);
+    }
+
     function keyDown(event) {
         if (event.key !== "Enter") return;
-        onSearch(searchQuery);
+        doSearch();
         focused = false;
     }
 </script>
@@ -72,15 +74,15 @@
             </option-block>
             <option-block>
                 <label>Sort by</label>
-                <select on:change={sort}>
-                    <option>Name (Desc.)</option>
-                    <option>Name (Asc.)</option>
-                    <option>Prior Contribution (Desc.)</option>
-                    <option>Prior Contribution (Asc.)</option>
-                    <option>Last Contribution Date (Desc.)</option>
-                    <option>Last Contribution Date (Asc.)</option>
-                    <option>Employee Count (Desc.)</option>
-                    <option>Employee Count (Asc.)</option>
+                <select bind:this={sortChoice} on:change={doSearch}>
+                    <option value="name_desc">Name (Desc.)</option>
+                    <option value="name_asc">Name (Asc.)</option>
+                    <option value="prior_contrib_desc">Prior Contribution (Desc.)</option>
+                    <option value="prior_contrib_asc">Prior Contribution (Asc.)</option>
+                    <option value="last_contrib_desc">Last Contribution Date (Desc.)</option>
+                    <option value="last_contrib_asc">Last Contribution Date (Asc.)</option>
+                    <option value="emp_count_desc">Employee Count (Desc.)</option>
+                    <option value="emp_count_asc">Employee Count (Asc.)</option>
                 </select>
             </option-block>
         </option-box>
