@@ -19,6 +19,7 @@
 <style>
     sidebar {
         display: block;
+        font-family: sans-serif;
 
         height: 100%;
         background-color: var(--accent0);

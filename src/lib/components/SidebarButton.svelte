@@ -3,14 +3,14 @@
     export let link = '/';
 </script>
 
-<a href={link}>
-    <sidebar-button>
+<a href={link} class="sidebar-button">
     {text}
-    </sidebar-button>
 </a>
+
 <style>
-    sidebar-button {
+    .sidebar-button {
         display: flex;
+        text-decoration: none;
 
         cursor: pointer;
 
@@ -29,7 +29,7 @@
         background-color: #00000033;
     }
 
-    sidebar-button:hover {
+    .sidebar-button:hover {
         background-color: #000000AA;
     }
 </style>
