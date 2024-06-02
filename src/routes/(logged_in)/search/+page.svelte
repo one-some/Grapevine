@@ -12,15 +12,15 @@
     $: searchResults = [];
     let modalBind;
     let modalHidden: boolean = true;
+    let searchParams = {name: "", sort: "name_desc"};
     let searchQuery: string;
 
     async function updateSearchResults() {
-        if (!searchQuery) return;
-        const params = { name: searchQuery };
-
         // TODO: Pretty sure theres a native JS interface for this
         let paramParts = [];
-        for (const [k, v] of Object.entries(params)) {
+        for (const [k, v] of Object.entries(searchParams)) {
+            if (!v && v !== 0) continue;
+
             paramParts.push(`${k}=${v}`);
         }
 
@@ -33,32 +33,29 @@
         searchResults = [...j.results];
     }
 
-    function onSearch(query) {
-        searchQuery = query;
+    function onSearch(query, sort) {
+        searchParams.name = query;
+        searchParams.sort = sort;
         updateSearchResults();
     }
 
-    function onSort() {
-        const x = Array.from(searchResults);
-        for (let i = x.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [x[i], x[j]] = [x[j], x[i]];
-        }
-        searchResults = [...x];
-    }
-
     onMount(() => {
+        console.log("HELLO WE ARE FALLINGAPART");
         updateSearchResults();
         document.body.appendChild(modalBind);
     });
 </script>
 
-<SearchBar {onSearch} {onSort}/>
+<SearchBar {onSearch}/>
 <big-button id="new-button" on:click={() => modalHidden = false}>Add Partner</big-button>
 
 {#each searchResults as result}
     <PartnerCard partner={result}/>
 {/each}
+
+{#if !searchResults.length}
+    No results.
+{/if}
 
 <modal bind:this={modalBind} class:hidden={modalHidden}>
     <editor>

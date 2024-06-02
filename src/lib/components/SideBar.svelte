@@ -10,7 +10,6 @@
 
     <SidebarButton text="Home" link="/" />
     <SidebarButton text="Search" link="/search" />
-    <SidebarButton text="Contacts" link="/contacts" />
     <SidebarButton text="Campaigns" link="/campaigns"/>
     <SidebarButton text="Documentation" link="/documentation"/>
 
@@ -20,6 +19,7 @@
 <style>
     sidebar {
         display: block;
+        font-family: sans-serif;
 
         height: 100%;
         background-color: var(--accent0);
