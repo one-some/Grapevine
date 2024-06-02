@@ -34,6 +34,9 @@ function issueJWT(email : string) {
     return first_half + "." + encryptor.digest('base64').replace("=", "");
 }
 
+function parseJWTPayload(payload: string) {
+    return JSON.parse(atob(payload))
+}
 
 
 export function load({ cookies }) {
@@ -41,11 +44,13 @@ export function load({ cookies }) {
             const JWT = cookies.get('JWT')?.split(".") as Array<string>;
             const encryptioner = createHmac("SHA256", key)
             encryptioner.update(JWT[0] + '.' + JWT[1])
-            if(JWT[2] == encryptioner.digest('base64').replace("=", "") && JSON.parse(atob(JWT[1])).iat - Date.now() <= 1200000) {
+            if(JWT[2] == encryptioner.digest('base64').replace("=", "") && Date.now() - parseJWTPayload(JWT[1]).iat <= 1200000) {
                 return redirect(303, "/");                                                                                              //  If the token is valid (which will only return true if there is a token AND it is vaild) AND it has been less than 20 minutes since the token has been issued (the token is reissued every time it is detected to be valid), then you can go to the homepage
             }
             else {
-                return {"message": cookies.get('error-message')}
+                const message = cookies.get('error-message')
+                cookies.delete('error-message', { path: '/'})
+                return {"message": message}
             }
     }
 }

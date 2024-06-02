@@ -24,7 +24,8 @@ function parseJWTPayload(payload: string) {
 export function load( { cookies, url }) {
     const STUPIDHACK = url.pathname;                                        
 /*  HACK: According to https://kit.svelte.dev/docs/load#rerunning-load-functions-when-do-load-functions-rerun
-load functions will not run when changing pages unless something referenced in the function, such as url, changes. Maybe could be replaced with invalidateAll()? */
+load functions will not run when changing pages unless something referenced in the function, such as url, changes. Maybe could be replaced with invalidateAll()? 
+It must be url.pathname too, not just url.  */
 
     const encryptor = createHmac("SHA256", key)
     const JWT = cookies.get("JWT")?.split(".") as Array<string>;
@@ -39,10 +40,12 @@ load functions will not run when changing pages unless something referenced in t
 
     if(expected_hash != JWT[2]){
         cookies.set("error-message", "Something went wrong, please sign in again", { path: "/"})    //  If your token is invalid, go to the login
+        console.log('here 1')
         throw redirect(303, "/login")
     }
-    else if(Date.now() - (JSON.parse(atob(JWT[1]))).iat >= 1200000){
+    else if(Date.now() - parseJWTPayload(JWT[1]).iat >= 1200000){
         cookies.set("error-message", "You've been automatically logged out after 20 minutes, please sign in again", { path: "/"})   //  If it has been 20 minutes since the token has last been used, go to the login
+        console.log('here 2')
         throw redirect(303, "/login")
     }
     else{
