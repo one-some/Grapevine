@@ -25,7 +25,7 @@
         padding-top: 16px;
         padding-bottom: 16px;
 
-        transition: background-color 0.2s;
+        transition: background-color 200ms;
         background-color: #00000033;
     }
 

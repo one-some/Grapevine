@@ -53,6 +53,10 @@
     <PartnerCard partner={result}/>
 {/each}
 
+{#if !searchResults.length}
+    No results.
+{/if}
+
 <modal bind:this={modalBind} class:hidden={modalHidden}>
     <editor>
         <modal-label>Edit Contact</modal-label>
