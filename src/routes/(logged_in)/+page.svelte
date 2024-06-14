@@ -1,34 +1,51 @@
 <script lang="ts">
     import SearchBar from "$lib/components/SearchBar.svelte"
+    
+    export let data;
+    console.log(data);
 </script>
 
 <cont><greeting>Hello, Nicholas</greeting></cont>
 <SearchBar />
 
-<!--
+
 <boxes>
     <labeled-box id="recent-activity">
         <box-label>Recent Activity</box-label>
         <box-content>
-            Blah blah blah. I am a BOX.
+            Need donations.
+        </box-content>
+    </labeled-box>
+
+    <labeled-box id="negotation">
+        <box-label>Ongoing Negotiations</box-label>
+        <box-content>
+            Really need donations.
         </box-content>
     </labeled-box>
 
     <labeled-box id="donors">
         <box-label>Potential Donors</box-label>
         <box-content>
-            HELLLLLLLLLLLLLLLLO I AM A BOX.
+            Cannot be done without donations.
         </box-content>
     </labeled-box>
 
-    <labeled-box id="negotation">
-        <box-label>Potential Donors</box-label>
+    <labeled-box id="deadlines">
+        <box-label>Campaign Deadlines</box-label>
         <box-content>
-            HELLLLLLLLLLLLLLLLO I AM A BOX.
+            Campaigns don't have deadlines.
+        </box-content>
+    </labeled-box>
+
+    <labeled-box id="student-activity">
+        <box-label>Student Activity</box-label>
+        <box-content>
+            And where are the students?
         </box-content>
     </labeled-box>
 </boxes>
--->
+
 
 <style>
     cont {
@@ -74,8 +91,24 @@
         width: 80%;
     }
 
+    #recent-activity {
+        grid-column: 1;
+        grid-row: 1 / 3;
+    }
+    #negotation {
+        grid-column: 1;
+        grid-row: 3 / 5;
+    }
     #donors {
         grid-column: 2;
-        grid-row: 1 / 3;
+        grid-row: 1 / 4;
+    }
+    #deadlines {
+        grid-column: 2;
+        grid-row: 4 / 7;
+    }
+    #student-activity {
+        grid-column: 1;
+        grid-row: 5 / 7;
     }
 </style>
