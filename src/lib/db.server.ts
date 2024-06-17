@@ -124,8 +124,8 @@ export class Organization {
 
         const query = queryParts.join(" ");
 
-        console.log("[query]", query);
-        console.log("[query]", queryParams);
+        // console.log("[query]", query);
+        // console.log("[query]", queryParams);
 
         const rows: any[] = db.prepare(query).all(queryParams);
         return rows.map(row => Organization.fromSQLRow(row));

@@ -1,7 +1,5 @@
 <script>
     export let title, desc, money_donated, money_needed;
-
-    console.log(title, desc);
 </script>
 
 <a href="campaigns/{title}" id="campaign-entry">

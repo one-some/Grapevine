@@ -40,12 +40,10 @@ It must be url.pathname too, not just url.  */
 
     if(expected_hash != JWT[2]){
         cookies.set("error-message", "Something went wrong, please sign in again", { path: "/"})    //  If your token is invalid, go to the login
-        console.log('here 1')
         throw redirect(303, "/login")
     }
     else if(Date.now() - parseJWTPayload(JWT[1]).iat >= 1200000){
         cookies.set("error-message", "You've been automatically logged out after 20 minutes, please sign in again", { path: "/"})   //  If it has been 20 minutes since the token has last been used, go to the login
-        console.log('here 2')
         throw redirect(303, "/login")
     }
     else{

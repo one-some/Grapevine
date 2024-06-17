@@ -5,7 +5,7 @@
     export let data;
 </script>
 
-<CampaignMainPage {...data.campaign} />
+<CampaignMainPage {...data.campaign}, --progress={String(data.campaign.money_donated / data.campaign.money_needed * 100) + "%"}/>
 
 {#each data.donations.names as name, i}
 
