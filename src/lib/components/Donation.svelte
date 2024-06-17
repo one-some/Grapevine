@@ -1,40 +1,80 @@
-<script>
-    export let org_name, amount_usd;
+<script lang="ts">
+    import IconPerson from "virtual:icons/mdi/person";
+    import IconShop from "virtual:icons/mdi/shop";
+    import { commatizeNumber } from "$lib/util";
+
+    export let donation;
 </script>
 
 
-
-<div id="donation-box">
-    <h1>
-        {org_name}
-    </h1>
-    <h1>
-        Amount: {amount_usd}
-    </h1>
-</div>
+<donation>
+    <!-- HACK! -->
+    <time>{new Date(donation.time * 1000).toDateString().split(" ").slice(1, 3).join(" ")}</time>
+    <sep>―</sep>
+    <txt>Contribution of</txt>
+    <dollars>${commatizeNumber(donation.amountUsd)}</dollars>
+    <txt>from</txt>
+    <org>
+        <IconShop />
+        <a href="/orgs/{donation.org.name}">{donation.org.name}</a>
+    </org>
+    <txt>through</txt>
+    <person>
+        <IconPerson />
+        {donation.contact.name}
+    </person>
+    {#if donation.campaign}
+        <txt>towards</txt>
+        {donation.campaign.name}
+    {/if}
+    {#if donation.reason}
+        <txt>for</txt>
+        {donation.reason}
+    {/if}
+</donation>
 
 <style>
-
-    h1 {
-        margin-left: 10px;
-        margin-bottom: 0px;
+    donation {
+        display: block;
+        background-color: #00000010;
+        transition: background-color 200ms;
+        padding: 12px;
     }
 
-    #donation-box {
-        /* HACK: 100% - margin * 2 */
-        width: calc(100% - 16px);
-        padding: 5px;
-        margin: 8px;
-
-        background-color: white;
-        border-color: black;
-        border-width: 1px;
-        display: block;
+    donation:hover {
+        background-color: #ffffff20;
     }
 
+    time {
+        font-weight: bold;
+        font-size: 0.9em;
+        display: inline-block;
+    }
 
-    #people-contact-subtext {
-        color: grey;
-        display: block;
+    sep {
+        user-select: none;
+        display: inline-block;
+        opacity: 0.5;
+        font-weight: bold;
+    }
+
+    txt {
+        user-select: none;
+    }
+
+    org, person {
+        position: relative;
+        top: 4px;
+
+        display: inline-flex;
+        gap: 2px;
+        align-items: center;
+
+        font-weight: bold;
+    }
+
+    dollars {
+        color: darkgreen;
+        font-weight: bold;
     }
 </style>

@@ -1,4 +1,6 @@
 import Database from 'better-sqlite3';
+import { Connect } from 'vite';
+import { OrgType } from './types';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
 
@@ -24,10 +26,97 @@ interface SearchParams {
 }
     
 
-export enum OrgType {
-    // Must match SQL enum verification
-    FOR_PROFIT,
-    NON_PROFIT,
+export class Contact {
+    id: number;
+    name: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+
+    constructor(
+        id: number,
+        firstName: string,
+        lastName: string,
+        email: string,
+        phone: string,
+    ) {
+        this.id = id;
+        // Statically defined for auto serialization
+        this.name = `${firstName} ${lastName}`;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    static fromId(id: number): Contact {
+        const row = db.prepare(`SELECT first_name,last_name,email,phone FROM contacts WHERE id = ?;`).get(id);
+        return new Contact(
+            id,
+            row.first_name,
+            row.last_name,
+            row.email,
+            row.phone,
+        );
+    }
+
+    toJSON() {
+        return {...this};
+    }
+}
+
+export class Donation {
+    // Note: keep these as basic JS objects so serialization is ezpz
+    id: number;
+    reason: string;
+    org: Organization;
+    campaignId: number;
+    contact: Contact;
+    amountUsd: number;
+    time: number;
+
+    constructor(
+        id: number,
+        reason: string,
+        org: Organization,
+        campaignId: number,
+        contact: Contact,
+        amountUsd: number,
+        time: number,
+    ) {
+        this.id = id;
+        this.reason = reason;
+        this.org = org;
+        this.campaignId = campaignId;
+        this.contact = contact;
+        this.amountUsd = amountUsd;
+        this.time = time;
+    }
+
+    static recent(count: number = 25) {
+        const query = "SELECT id,reason,org_id,campaign_id,contact_id,amount_usd,time FROM donations ORDER BY time DESC LIMIT ?;";
+        const rows: any[] = db.prepare(query).all([count]);
+
+        return rows.map(function(row: any) {
+            return new Donation(
+                row.id,
+                row.reason,
+                Organization.fromId(row.org_id),
+                row.campaign_id,
+                Contact.fromId(row.contact_id),
+                row.amount_usd,
+                row.time,
+            );
+        });
+    }
+
+    toJSON() {
+        const out = {...this};
+        out.org = out.org.toJSON();
+        out.contact = out.contact.toJSON();
+        return out;
+    }
 }
 
 export class Organization {
@@ -76,6 +165,11 @@ export class Organization {
 
     static fromId(id: number): Organization {
         const row = db.prepare(`SELECT ${Organization.FullSelectCriteria} FROM orgs WHERE id = ?;`).get(id);
+        return Organization.fromSQLRow(row);
+    }
+
+    static fromName(name: string): Organization {
+        const row = db.prepare(`SELECT ${Organization.FullSelectCriteria} FROM orgs WHERE name = ?;`).get(name);
         return Organization.fromSQLRow(row);
     }
 
@@ -129,5 +223,28 @@ export class Organization {
 
         const rows: any[] = db.prepare(query).all(queryParams);
         return rows.map(row => Organization.fromSQLRow(row));
+    }
+
+    getDonations() {
+        const query = "SELECT id,reason,campaign_id,contact_id,amount_usd,time FROM donations WHERE org_id = ?;";
+        const rows: any[] = db.prepare(query).all([this.id]);
+
+        // Little odd but will satisfy typing
+        const org = this;
+        return rows.map(function(row: any) {
+            return new Donation(
+                row.id,
+                row.reason,
+                org,
+                row.campaign_id,
+                Contact.fromId(row.contact_id),
+                row.amount_usd,
+                row.time,
+            );
+        });
+    }
+
+    toJSON() {
+        return {...this};
     }
 }

@@ -1,8 +1,8 @@
 <script lang="ts">
     import SearchBar from "$lib/components/SearchBar.svelte"
+    import Donation from "$lib/components/Donation.svelte"
     
     export let data;
-    console.log(data);
 </script>
 
 <cont><greeting>Hello, Nicholas</greeting></cont>
@@ -12,8 +12,10 @@
 <boxes>
     <labeled-box id="recent-activity">
         <box-label>Recent Activity</box-label>
-        <box-content>
-            Need donations.
+        <box-content class="dono-cont">
+            {#each data.recentDonations as donation}
+                <Donation {donation} />
+            {/each}
         </box-content>
     </labeled-box>
 
@@ -80,7 +82,11 @@
     }
 
     box-content {
-        margin: 12px;
+        padding: 12px;
+    }
+
+    .dono-cont {
+        padding: 0px;
     }
 
     boxes {
@@ -89,6 +95,8 @@
         gap: 10px;
         grid-auto-rows: minmax(100px, auto);
         width: 80%;
+        flex-grow: 1;
+        margin-bottom: 12px;
     }
 
     #recent-activity {

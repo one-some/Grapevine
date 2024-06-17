@@ -1,3 +1,4 @@
+import { Donation } from '$lib/db.server';
 import Database from 'better-sqlite3';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
@@ -9,8 +10,12 @@ export function load(  { cookies, url }) {
 	It must be url.pathname too, not just url.  */
 
     let contact = db.prepare("SELECT desc, org_type, employee_count FROM orgs WHERE 1 = 1").all();
-    return{
-        contact: contact
+
+    const recentDonations = Donation.recent(25).map(x => x.toJSON()).reverse();
+
+    return {
+        contact: contact,
+        recentDonations: recentDonations
     };
 }
 
