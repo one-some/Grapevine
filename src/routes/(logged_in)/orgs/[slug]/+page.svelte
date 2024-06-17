@@ -1,5 +1,8 @@
 <!-- i want icons but npm wants to pull some total nonsense and compile stuff likwe what the heck -->
 <script>
+    import Donation from "$lib/components/Donation.svelte"
+    import { OrgType } from '$lib/types';
+
     // https://icon-sets.iconify.design/mdi/
     import IconHandshake from "virtual:icons/mdi/handshake";
     import IconContact from "virtual:icons/mdi/contact";
@@ -13,15 +16,14 @@
     import IconPerson from "virtual:icons/mdi/person";
 
     export let data;
-    console.log(data);
 </script>
 
 <big>
     <left>
-        <h2><IconShop />{data.name}</h2>
+        <h2><IconShop />{data.org.name}</h2>
         <field>
             <lab><IconGavel />Type</lab>
-            {#if data.contact.org_type == "FOR_PROFIT"}
+            {#if data.org.orgType == OrgType.FOR_PROFIT}
                 <IconAttachMoney />
                 For-Profit
             {:else}
@@ -31,9 +33,9 @@
         </field>
         <field>
             <lab><IconWorker />Employee Count</lab>
-            {data.contact.employee_count}
+            {data.org.employeeCount}
         </field>
-        <p id="desc">{data.contact.desc}</p>
+        <p id="desc">{data.org.desc}</p>
     </left>
     <right>
         <top>
@@ -56,6 +58,9 @@
         </top>
         <bottom>
             <h2><IconHandshake />Contributions</h2>
+            {#each data.donations as donation}
+                <Donation {donation} />
+            {/each}
         </bottom>
     </right>
 </big>

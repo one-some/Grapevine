@@ -8,6 +8,5 @@ export function GET({ url }) {
             sort: url.searchParams.get("sort") ?? "name_desc"
         })
     };
-    console.log(ret);
     return json(ret);
 }

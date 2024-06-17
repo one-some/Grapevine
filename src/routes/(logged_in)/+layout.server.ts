@@ -31,7 +31,7 @@ It must be url.pathname too, not just url.  */
     const JWT = cookies.get("JWT")?.split(".") as Array<string>;
 
     if(!cookies.get("JWT")){
-        throw redirect(303, "/login")                                                                // If you don't have a token, go to the login
+        throw redirect(303, "/about")                                                                // If you don't have a token, go to the login
     }
     
     encryptor.update(JWT[0] + "." + JWT[1]);                                                        // This type coerces to a string so even if JWT is a random string it will not be equal to JWT[2] which would be undefined, right? So it is protected if someone sends a cookie with random data.

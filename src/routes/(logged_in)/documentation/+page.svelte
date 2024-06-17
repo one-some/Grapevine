@@ -15,7 +15,7 @@
     <ol>
         <li><a href="#manage_account">Account Management</a></li>
         <ul>
-            <li><a href="#create_account">Creating an Account</a></li>
+            <!-- <li><a href="#create_account">Creating an Account</a></li> -->
             <li><a href="#account_info">Adding Account Information</a></li>
             <li><a href="#delete_account">Deleting an Unused Account</a></li>
         </ul>
@@ -57,13 +57,13 @@
 
 <div id="manage_account" class="documentation_chunk">
     <h2>1. Account Management</h2>
-    <h4 class="unimplemented" id="create_account">Creating an Account</h4>
-    <p class="unimplemented">
+    <!-- <h4 class="unimplemented" id="create_account">Creating an Account</h4> -->
+    <!-- <p class="unimplemented">
         To create a new account, first navigate to the Grapevine site. If another account
         is already signed in, sign out. Now you should find yourself on the login screen.
         Click "Create new Account" under the "Login" button and enter a user name and password. 
         The site should automatically log you into your new account upon creation.
-    </p>
+    </p> -->
     <h4 class="unimplemented" id="account_info">Adding Account Information</h4>
     <p class="unimplemented">
         If you wish, you may add various contact information to your account such as phone, email, and
