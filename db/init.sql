@@ -5,33 +5,34 @@ CREATE TABLE orgs(
     name TEXT NOT NULL,
     desc TEXT,
     org_type TEXT CHECK(org_type IN ('FOR_PROFIT', 'NON_PROFIT')) NOT NULL,
-    employee_count INTEGER NOT NULL
+    employee_count INTEGER NOT NULL,
+    annual_profit INTEGER NOT NULL
 );
-INSERT INTO orgs VALUES(1,'REV Robotics','Quality parts for STEM education','NON_PROFIT',147);
-INSERT INTO orgs VALUES(2,'Andymark','Building the next generation of engineers','NON_PROFIT',297);
-INSERT INTO orgs VALUES(3,'McMaster-Carr','Rapid delivery of any part you need','NON_PROFIT',1078);
-INSERT INTO orgs VALUES(4,'Radiance Technologies','Designing the technologies of the future','NON_PROFIT',118);
-INSERT INTO orgs VALUES(5,'Kid Prints','Making memories','NON_PROFIT',10);
-INSERT INTO orgs VALUES(6,'NASA','Space exploration of the future','NON_PROFIT',18045);
-INSERT INTO orgs VALUES(7,'Lockheed Martin','Pushing the limits, building the future','NON_PROFIT',2078);
-INSERT INTO orgs VALUES(8,'Boeing','Reliable planes and vehicles when quality matters','NON_PROFIT',2303);
-INSERT INTO orgs VALUES(9,'Space Photonics','Designing outside the box','NON_PROFIT',312);
-INSERT INTO orgs VALUES(10,'Ruston Brick','Brick you can build on','NON_PROFIT',158);
-INSERT INTO orgs VALUES(11,'Parish Press','Home-brewed coffee and baked goods','NON_PROFIT',23);
-INSERT INTO orgs VALUES(12,'Cracker Barrel','Hearty, homestyle foods served fast','NON_PROFIT',3582);
-INSERT INTO orgs VALUES(13,'Intralox','Belts and sprokets for all applications','NON_PROFIT',572);
-INSERT INTO orgs VALUES(14,'National Instruments','Control systems you can trust','NON_PROFIT',316);
-INSERT INTO orgs VALUES(15,'Apple','Newest and best computers and phones','NON_PROFIT',16723);
-INSERT INTO orgs VALUES(16,'AT&T','Reliable internet for all your needs','NON_PROFIT',15023);
-INSERT INTO orgs VALUES(17,'A&H Games','Games, comics, and roleplay','NON_PROFIT',19);
-INSERT INTO orgs VALUES(18,'El Jarrito','Serving food with pride','NON_PROFIT',138);
-INSERT INTO orgs VALUES(19,'Tacos the Guero','Authentic Mexico City tacos','NON_PROFIT',15);
-INSERT INTO orgs VALUES(20,'Gibson’s','High-quality, organic foods','NON_PROFIT',234);
-INSERT INTO orgs VALUES(21,'Exxon','Affordable amenities wherever you go','NON_PROFIT',2575);
-INSERT INTO orgs VALUES(22,'Shell','Fueling your dreams','NON_PROFIT',2487);
-INSERT INTO orgs VALUES(23,'Walgreens','Medications brought to you at low prices','NON_PROFIT',362);
-INSERT INTO orgs VALUES(24,'Orange Leaf','Fulfilling your cravings for quality deserts','NON_PROFIT',258);
-INSERT INTO orgs VALUES(25,'Origin Bank','Secure, small town banking','NON_PROFIT',210);
+INSERT INTO orgs VALUES(1,'REV Robotics','Quality parts for STEM education','NON_PROFIT',35,645);
+INSERT INTO orgs VALUES(2,'Andymark','Building the next generation of engineers','NON_PROFIT',297,539);
+INSERT INTO orgs VALUES(3,'McMaster-Carr','Rapid delivery of any part you need','NON_PROFIT',1078,132);
+INSERT INTO orgs VALUES(4,'Radiance Technologies','Designing the technologies of the future','NON_PROFIT',118,447);
+INSERT INTO orgs VALUES(5,'Kid Prints','Making memories','NON_PROFIT',10,695);
+INSERT INTO orgs VALUES(6,'NASA','Space exploration of the future','NON_PROFIT',18045,488);
+INSERT INTO orgs VALUES(7,'Lockheed Martin','Pushing the limits, building the future','NON_PROFIT',2078,859);
+INSERT INTO orgs VALUES(8,'Boeing','Reliable planes and vehicles when quality matters','NON_PROFIT',2303,843);
+INSERT INTO orgs VALUES(9,'Space Photonics','Designing outside the box','NON_PROFIT',312,118);
+INSERT INTO orgs VALUES(10,'Ruston Brick','Brick you can build on','NON_PROFIT',158,950);
+INSERT INTO orgs VALUES(11,'Parish Press','Home-brewed coffee and baked goods','NON_PROFIT',23,782);
+INSERT INTO orgs VALUES(12,'Cracker Barrel','Hearty, homestyle foods served fast','NON_PROFIT',3582,680);
+INSERT INTO orgs VALUES(13,'Intralox','Belts and sprokets for all applications','NON_PROFIT',572,818);
+INSERT INTO orgs VALUES(14,'National Instruments','Control systems you can trust','NON_PROFIT',316,484);
+INSERT INTO orgs VALUES(15,'Apple','Newest and best computers and phones','NON_PROFIT',16723,229);
+INSERT INTO orgs VALUES(16,'AT&T','Reliable internet for all your needs','NON_PROFIT',15023,170);
+INSERT INTO orgs VALUES(17,'A&H Games','Games, comics, and roleplay','NON_PROFIT',19,101);
+INSERT INTO orgs VALUES(18,'El Jarrito','Serving food with pride','NON_PROFIT',138,169);
+INSERT INTO orgs VALUES(19,'Tacos the Guero','Authentic Mexico City tacos','NON_PROFIT',15,329);
+INSERT INTO orgs VALUES(20,'Gibson’s','High-quality, organic foods','NON_PROFIT',234,299);
+INSERT INTO orgs VALUES(21,'Exxon','Affordable amenities wherever you go','NON_PROFIT',2575,377);
+INSERT INTO orgs VALUES(22,'Shell','Fueling your dreams','NON_PROFIT',2487,390);
+INSERT INTO orgs VALUES(23,'Walgreens','Medications brought to you at low prices','NON_PROFIT',362,410);
+INSERT INTO orgs VALUES(24,'Orange Leaf','Fulfilling your cravings for quality deserts','NON_PROFIT',258,676);
+INSERT INTO orgs VALUES(25,'Origin Bank','Secure, small town banking','NON_PROFIT',210,794);
 CREATE TABLE donations(
     id INTEGER PRIMARY KEY,
     reason TEXT,

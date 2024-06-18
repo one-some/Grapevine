@@ -35,6 +35,10 @@
             <lab><IconWorker />Employee Count</lab>
             {data.org.employeeCount}
         </field>
+        <field>
+            <lab><IconAttachMoney />Yearly Revenue</lab>
+            645
+        </field>
         <p id="desc">{data.org.desc}</p>
     </left>
     <right>
