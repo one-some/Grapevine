@@ -20,6 +20,8 @@
     function commatize(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    data.donations.sort((a, b) => b.time-a.time);
 </script>
 
 <big>
