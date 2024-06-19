@@ -127,6 +127,7 @@ export class Organization {
         "desc",
         "org_type",
         "employee_count",
+        "annual_profit",
     ].join(",");
 
     id: number;
@@ -135,6 +136,7 @@ export class Organization {
     orgType: OrgType;
     employeeCount: number;
     tags: string[];
+    annual_profit: number;
 
     constructor(
         id: number,
@@ -143,6 +145,7 @@ export class Organization {
         orgType: OrgType,
         employeeCount: number,
         tags: string[],
+        annual_profit: number,
     ) {
         this.id = id;
         this.name = name;
@@ -150,6 +153,7 @@ export class Organization {
         this.orgType = orgType;
         this.employeeCount = employeeCount;
         this.tags = tags;
+        this.annual_profit = annual_profit;
     }
 
     static fromSQLRow(row: any): Organization {
@@ -159,7 +163,8 @@ export class Organization {
             row.desc,
             OrgType[row.org_type as keyof typeof OrgType],
             row.employee_count,
-            []
+            [],
+            row.annual_profit,
         );
     }
 

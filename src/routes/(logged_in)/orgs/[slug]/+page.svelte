@@ -16,6 +16,10 @@
     import IconPerson from "virtual:icons/mdi/person";
 
     export let data;
+
+    function commatize(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 </script>
 
 <big>
@@ -37,7 +41,7 @@
         </field>
         <field>
             <lab><IconAttachMoney />Yearly Revenue</lab>
-            645
+            ${commatize(data.org.annual_profit)}
         </field>
         <p id="desc">{data.org.desc}</p>
     </left>
