@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
 import { Connect } from 'vite';
-import { OrgType } from './types';
+import { OrgType, NegotiationStage } from './types';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
 
@@ -119,6 +119,67 @@ export class Donation {
     }
 }
 
+export class DonationInProgress {
+    // Note: keep these as basic JS objects so serialization is ezpz
+    id: number;
+    reason: string;
+    org: Organization;
+    campaignId: number;
+    contact: Contact;
+    amountUsd: number;
+    time_started: number;
+    time_last_action: number;
+    donation_stage: NegotiationStage;
+
+    constructor(
+        id: number,
+        reason: string,
+        org: Organization,
+        campaignId: number,
+        contact: Contact,
+        amountUsd: number,
+        time_started: number,
+        time_last_action: number,
+        donation_stage: NegotiationStage,
+    ) {
+        this.id = id;
+        this.reason = reason;
+        this.org = org;
+        this.campaignId = campaignId;
+        this.contact = contact;
+        this.amountUsd = amountUsd;
+        this.time_started = time_started;
+        this.time_last_action = time_last_action;
+        this.donation_stage = donation_stage;
+    }
+
+    static recent(count: number = 25) {
+        const query = "SELECT id,reason,org_id,campaign_id,contact_id,amount_usd,time_started,time_last_action,donation_stage FROM donations_in_progress ORDER BY time_last_action DESC LIMIT ?;";
+        const rows: any[] = db.prepare(query).all([count]);
+
+        return rows.map(function(row: any) {
+            return new DonationInProgress(
+                row.id,
+                row.reason,
+                Organization.fromId(row.org_id),
+                row.campaign_id,
+                Contact.fromId(row.contact_id),
+                row.amount_usd,
+                row.time_started,
+                row.time_last_action,
+                NegotiationStage[row.donation_stage as keyof typeof NegotiationStage],
+            );
+        });
+    }
+
+    toJSON() {
+        const out = {...this};
+        out.org = out.org.toJSON();
+        out.contact = out.contact.toJSON();
+        return out;
+    }
+}
+
 export class Organization {
     // SECURITY: Direct SQL, beware!
     static FullSelectCriteria = [
@@ -127,6 +188,7 @@ export class Organization {
         "desc",
         "org_type",
         "employee_count",
+        "annual_profit",
     ].join(",");
 
     id: number;
@@ -135,6 +197,7 @@ export class Organization {
     orgType: OrgType;
     employeeCount: number;
     tags: string[];
+    annual_profit: number;
 
     constructor(
         id: number,
@@ -143,6 +206,7 @@ export class Organization {
         orgType: OrgType,
         employeeCount: number,
         tags: string[],
+        annual_profit: number,
     ) {
         this.id = id;
         this.name = name;
@@ -150,6 +214,7 @@ export class Organization {
         this.orgType = orgType;
         this.employeeCount = employeeCount;
         this.tags = tags;
+        this.annual_profit = annual_profit;
     }
 
     static fromSQLRow(row: any): Organization {
@@ -159,7 +224,8 @@ export class Organization {
             row.desc,
             OrgType[row.org_type as keyof typeof OrgType],
             row.employee_count,
-            []
+            [],
+            row.annual_profit,
         );
     }
 

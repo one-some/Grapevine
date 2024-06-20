@@ -21,7 +21,7 @@
     <faint>{partner.desc}</faint>
     <faint>{partner.employeeCount} employees</faint>
     <faint>{["Non-Profit", "For-Profit"][partner.orgType]}</faint>
-    <faint>${commatize(randFor(partner.name, 2400, 1200000))} USD for Q3</faint>
+    <faint>${commatize(partner.annual_profit)} Annual Profit</faint>
     <tag-collection>
         {#each partner.tags as tag}
             <tag>{tag}</tag>

@@ -16,6 +16,12 @@
     import IconPerson from "virtual:icons/mdi/person";
 
     export let data;
+
+    function commatize(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    data.donations.sort((a, b) => b.time-a.time);
 </script>
 
 <big>
@@ -34,6 +40,10 @@
         <field>
             <lab><IconWorker />Employee Count</lab>
             {data.org.employeeCount}
+        </field>
+        <field>
+            <lab><IconAttachMoney />Yearly Revenue</lab>
+            ${commatize(data.org.annual_profit)}
         </field>
         <p id="desc">{data.org.desc}</p>
     </left>

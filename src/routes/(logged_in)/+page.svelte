@@ -1,8 +1,11 @@
 <script lang="ts">
     import SearchBar from "$lib/components/SearchBar.svelte"
     import Donation from "$lib/components/Donation.svelte"
+    import DonationInProgress from "$lib/components/DonationInProgress.svelte";
     
     export let data;
+    
+    data.recentDonations.sort((a, b) => b.time-a.time);
 </script>
 
 <cont><greeting>Hello, Nicholas</greeting></cont>
@@ -13,16 +16,22 @@
     <labeled-box id="recent-activity">
         <box-label>Recent Activity</box-label>
         <box-content class="dono-cont">
-            {#each data.recentDonations as donation}
-                <Donation {donation} />
-            {/each}
+            <div class="scroll">
+                {#each data.recentDonations as donation}
+                    <Donation {donation} />
+                {/each}
+            </div>
         </box-content>
     </labeled-box>
 
     <labeled-box id="negotation">
         <box-label>Ongoing Negotiations</box-label>
         <box-content>
-            Really need donations.
+            <div class="scroll">
+                {#each data.ongoingNegotiations as donation}
+                    <DonationInProgress {donation} />
+                {/each}
+            </div>
         </box-content>
     </labeled-box>
 
@@ -87,6 +96,11 @@
 
     .dono-cont {
         padding: 0px;
+    }
+
+    .scroll {
+        height:250px;
+        overflow-y:scroll;
     }
 
     boxes {

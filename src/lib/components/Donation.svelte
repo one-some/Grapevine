@@ -9,7 +9,7 @@
 
 <donation>
     <!-- HACK! -->
-    <time>{new Date(donation.time * 1000).toDateString().split(" ").slice(1, 3).join(" ")}</time>
+    <time>{new Date(donation.time * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
     <sep>―</sep>
     <txt>Contribution of</txt>
     <dollars>${commatizeNumber(donation.amountUsd)}</dollars>
