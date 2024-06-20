@@ -8,11 +8,14 @@
     let number = 'gray';
     let special = 'gray';
 
+
+    //  Checks password length
     $: if (password.length > 8)
     { length = 'green' }
     else
     { length = 'red' }
-
+    
+    //  
     $: if(/(?=.*[A-Z])/.test(password))
     { uppercase = 'green' }
     else

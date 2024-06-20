@@ -11,7 +11,8 @@
     <SidebarButton text="Home" link="/" />
     <SidebarButton text="Search" link="/search" />
     <SidebarButton text="Campaigns" link="/campaigns"/>
-    <SidebarButton text="Documentation" link="/documentation"/>
+    <SidebarButton text="Reports" link="/reports"/>
+    <SidebarButton text="Help" link="/help"/>
 
     <SidebarButton text="Logout" link="logout"/>
 </sidebar>
