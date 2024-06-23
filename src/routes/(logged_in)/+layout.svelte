@@ -1,5 +1,6 @@
 <script lang="ts">
     import SideBar from "$lib/components/SideBar.svelte"
+    import JoeBot from "$lib/components/JoeBot.svelte"
 </script>
 
 <svelte:head>
@@ -8,6 +9,7 @@
 
 <page>
     <SideBar />
+    <JoeBot />
     <content>
         <slot />
     </content>
