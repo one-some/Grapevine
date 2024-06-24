@@ -37,12 +37,26 @@
 
 <config>
     <box-label>Report Configuration</box-label>
+
     <config-options>
-        <p>Hello there</p>
-        <p>Hello there</p>
-        <p>Hello there</p>
-        <p>Hello there</p>
+        <sect>Visualization</sect>
+        <hr>
+
+        <row>
+            <label for="show-campaigns">Show Campaigns</label>
+            <input id="show-campaigns" type="checkbox" checked>
+        </row>
+        <row>
+            <label for="show-donations">Show Donations</label>
+            <input id="show-donations" type="checkbox" checked>
+        </row>
+        <row>
+            <label for="show-negotiations">Show Negotiations</label>
+            <input id="show-negotiations" type="checkbox" checked>
+        </row>
+
     </config-options>
+
     <print-button on:click={() => printElement(reportElement)}>Print</print-button>
 </config>
 
@@ -88,15 +102,51 @@
     }
 
     config-options {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         padding: 8px;
+        flex-grow: 1;
+    }
+
+    config-options hr {
+        width: 95%;
+    }
+
+    sect {
+        display: block;
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2em;
+    }
+
+
+    row {
+        user-select: none;
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        margin-bottom: 4px;
+        background-color: transparent;
+        transition: background-color 200ms;
+        padding: 4px;
+        border-radius: 4px;
+    }
+
+    row:hover {
+        background-color: #00000022;
+    }
+
+    row label {
+        flex-grow: 1;
     }
 
     print-button {
         color: white;
         background-color: var(--grape-green);
         width: calc(100% - 24px);
-       height: 128px;
+        height: 128px;
         margin: 12px;
         display: flex;
         justify-content: center;
@@ -105,6 +155,13 @@
         font-weight: bold;
         border-radius: 8px;
         cursor: pointer;
+    
+        transition: filter 100ms, background-color 100ms;
+    }
+
+    print-button:hover {
+        filter: drop-shadow(0 0 2px black);
+        background-color: #279727;
     }
 
     box-label {
