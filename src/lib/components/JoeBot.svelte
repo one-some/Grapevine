@@ -14,8 +14,10 @@
     };
 
     let inputBox: HTMLInputElement;
-    let shown = true;
-    let thinking = true;
+    let msgCont: HTMLDivElement;
+    let shown = false;
+    let thinking = false;
+    $: if (inputBox) inputBox.disabled = thinking;
 
     let messages: ChatMessage[] = [
         {author: MessageAuthor.JOE, message: "Hello! My name is Joe and I'm here to help you with Grapevine. How can I assist you today?"}
@@ -24,6 +26,18 @@
     function inputKeydown(event) {
         if (event.key !== "Enter") return;
         send();
+    }
+    
+    function addMessage(message) {
+        messages = [...messages, message];
+        setTimeout(function() {
+            // Probably Firefox exclusive hack because their event system is somewhat
+            // scuffed but WHATEVER!
+            inputBox.focus();
+
+            // HACK! it doesnt work right away from reactivity.
+            Array.from(msgCont.children).at(-1).scrollIntoView()
+        }, 100);
     }
 
     function send() {
@@ -37,10 +51,26 @@
         // GAAAAAAAaH!!!!!?!??????!?!?!?!?
         // And they act like this is normal or intuative in any way:
         //      https://learn.svelte.dev/tutorial/updating-arrays-and-objects
-        messages = [...messages, {author: MessageAuthor.USER, message: message}];
+        addMessage({author: MessageAuthor.USER, message: message});
 
-        inputBox.disabled = true;
+        thinking = true;
+        setTimeout(reply, 1000 + (Math.random() * 300));
     }
+
+    function getResponse(query: string): string {
+        if (query.includes("account")) {
+            return `Account management can be performed under the account management section. For more details, <a href="/help#manage_account">see the documentation</a>.`
+        }
+        return "I'm sorry, I don't understand your request. Try asking a question like \"how do I manage an account?\"";
+    }
+
+    function reply() {
+        const query = messages.at(-1).message.toLowerCase();
+        const response = getResponse(query);
+        addMessage({author: MessageAuthor.JOE, message: response});
+        thinking = false;
+    }
+
 </script>
 
 <joe-bot>
@@ -56,10 +86,10 @@
                     <IconCloseThick class="ch-icon" />
                 </close>
             </bar>
-            <msg-cont>
+            <msg-cont bind:this={msgCont}>
                 <tutorial>In this window, you can ask Joe, our intelligent chatbot, any question you might have regarding the use of Grapevine.</tutorial>
                 {#each messages as message}
-                    <msg-wrapper author="{message.author}"><msg>{message.message}</msg></msg-wrapper>
+                    <msg-wrapper author="{message.author}"><msg>{@html message.message}</msg></msg-wrapper>
                 {/each}
 
                 {#if thinking}
@@ -158,6 +188,7 @@
         background-color: white;
         padding: 10px;
         border: 2px solid #00000058;
+        animation: fadein 200ms;
     }
 
     msg-wrapper[author="user"] {
@@ -241,9 +272,14 @@
         animation: load 1s infinite linear alternate;
     }
     @keyframes load {
-        0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
-        33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
-        66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
-        100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
+        0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000; }
+        33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002; }
+        66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002; }
+        100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000;  }
+    }
+
+    @keyframes fadein {
+        from { opacity: 0; }
+        to { opacity:1; }
     }
 </style>
