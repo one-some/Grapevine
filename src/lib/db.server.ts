@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import { Connect } from 'vite';
 import { OrgType, NegotiationStage } from './types';
+import { decodeJWT } from './util';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
 
@@ -314,3 +315,43 @@ export class Organization {
         return {...this};
     }
 }
+
+export class User {
+    firstName: string;
+    lastName: string;
+    email: string;
+
+    constructor(
+        firstName: string,
+        lastName: string,
+        email: string,
+    ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    static fromJWT(token: string): User {
+        console.log("TOKEN", token);
+        const data = decodeJWT(token);
+        console.log("data", data);
+        return User.fromEmail(data.email);
+    }
+
+    static fromEmail(email: string): User {
+        const row: any = db.prepare(
+            "SELECT first_name,last_name FROM users WHERE email = ?",
+        ).get(email);
+
+        return new User(
+            row.first_name,
+            row.last_name,
+            row.email
+        );
+    }
+
+    toJSON() {
+        return {...this};
+    }
+}
+

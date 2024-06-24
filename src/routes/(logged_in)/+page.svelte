@@ -8,7 +8,7 @@
     data.recentDonations.sort((a, b) => b.time-a.time);
 </script>
 
-<cont><greeting>Hello, Nicholas</greeting></cont>
+<cont><greeting>Hello, {data.user.firstName}.</greeting></cont>
 <SearchBar />
 
 
