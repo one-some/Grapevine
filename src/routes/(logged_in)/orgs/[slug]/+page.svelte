@@ -68,9 +68,11 @@
         </top>
         <bottom>
             <h2><IconHandshake />Contributions</h2>
-            {#each data.donations as donation}
-                <Donation {donation} />
-            {/each}
+            <container>
+                {#each data.donations as donation}
+                    <Donation {donation} />
+                {/each}
+            </container>
         </bottom>
     </right>
 </big>
@@ -122,7 +124,7 @@
         min-height: 0;
     }
 
-    top {
+    top, bottom {
         display: flex;
         flex-direction: column;
     }
