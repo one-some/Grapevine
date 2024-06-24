@@ -332,9 +332,7 @@ export class User {
     }
 
     static fromJWT(token: string): User {
-        console.log("TOKEN", token);
         const data = decodeJWT(token);
-        console.log("data", data);
         return User.fromEmail(data.email);
     }
 

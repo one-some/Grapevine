@@ -40,7 +40,6 @@
     }
 
     onMount(() => {
-        console.log("HELLO WE ARE FALLINGAPART");
         updateSearchResults();
         document.body.appendChild(modalBind);
     });
