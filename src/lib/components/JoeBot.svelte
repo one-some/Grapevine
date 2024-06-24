@@ -1,8 +1,46 @@
 <script lang="ts">
     import IconChatQuestion from "virtual:icons/mdi/chat-question";
     import IconCloseThick from "virtual:icons/mdi/close-thick";
+    import IconSend from "virtual:icons/mdi/send";
 
-    let shown = false;
+    enum MessageAuthor {
+        JOE = "joe",
+        USER = "user",
+    };
+
+    interface ChatMessage {
+        author: MessageAuthor;
+        message: string;
+    };
+
+    let inputBox: HTMLInputElement;
+    let shown = true;
+    let thinking = true;
+
+    let messages: ChatMessage[] = [
+        {author: MessageAuthor.JOE, message: "Hello! My name is Joe and I'm here to help you with Grapevine. How can I assist you today?"}
+    ];
+
+    function inputKeydown(event) {
+        if (event.key !== "Enter") return;
+        send();
+    }
+
+    function send() {
+        const message = inputBox.value.trim();
+
+        if (!message) return;
+        inputBox.value = "";
+
+        // Seriously annoying Svelte behavior. Reactivity is only triggered in the
+        // case of an assignment, so Array.push/Array.pop silently doesn't work....
+        // GAAAAAAAaH!!!!!?!??????!?!?!?!?
+        // And they act like this is normal or intuative in any way:
+        //      https://learn.svelte.dev/tutorial/updating-arrays-and-objects
+        messages = [...messages, {author: MessageAuthor.USER, message: message}];
+
+        inputBox.disabled = true;
+    }
 </script>
 
 <joe-bot>
@@ -19,8 +57,23 @@
                 </close>
             </bar>
             <msg-cont>
-                yo im joe
+                <tutorial>In this window, you can ask Joe, our intelligent chatbot, any question you might have regarding the use of Grapevine.</tutorial>
+                {#each messages as message}
+                    <msg-wrapper author="{message.author}"><msg>{message.message}</msg></msg-wrapper>
+                {/each}
+
+                {#if thinking}
+                    <msg-wrapper author="joe"><msg>
+                        <loading />
+                    </msg></msg-wrapper>
+                {/if}
             </msg-cont>
+            <input-bar>
+                <input bind:this={inputBox} on:keydown={inputKeydown} />
+                <send-icon on:click={send}>
+                    <IconSend />
+                </send-icon>
+            </input-bar>
         </dm>
     {:else}
         <help-icon on:click={() => shown = true}>
@@ -50,6 +103,8 @@
         display: flex;
         width: 350px;
         flex-direction: column;
+
+        filter: drop-shadow(0 0 5px black);
     }
 
     bar {
@@ -63,6 +118,8 @@
         font-weight: bold;
         user-select: none;
 
+        border-bottom: 3px solid #00000011;
+
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
@@ -73,9 +130,79 @@
     }
 
     msg-cont {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 4px;
+        padding-bottom: 8px;
+
+        overflow-y: auto;
         background-color: white;
         height: 500px;
+    }
+
+    tutorial {
+        font-size: 0.85em;
+        opacity: 0.4;
+        text-align: center;
+        user-select: none;
+    }
+    
+    msg-wrapper {
+        display: flex;
+    }
+
+    msg {
+        display: block;
+        border-radius: 8px;
+        background-color: white;
+        padding: 10px;
+        border: 2px solid #00000058;
+    }
+
+    msg-wrapper[author="user"] {
+        justify-content: end;
+    }
+    
+    msg-wrapper[author="joe"] msg {
+        background-color: #0000ff40;
+    }
+
+    input-bar {
+        display: flex;
+        align-items: center;
+
+        background-color: white;
+
+        border-top: 2px solid #00000044;
+    }
+
+    input-bar input {
+        font-size: 1.1em;
+        padding: 8px;
+        border: none;
+        outline: none;
+        flex-grow: 1;
+    }
+
+    send-icon {
+        display: flex;
+        align-items: center;
+        width: 24px;
+        padding: 4px;
+        cursor: pointer;
+    }
+
+
+    :global(send-icon:hover svg) {
+        opacity: 0.6;
+    }
+
+    :global(send-icon svg) {
+        width: 100%;
+        height: 100%;
+        opacity: 0.4;
+        transition: opacity 300ms;
     }
 
     help-icon {
@@ -98,5 +225,25 @@
     :global(help-icon svg) {
         width: 80%;
         height: 80%;
+    }
+
+    /* Loader adapted from https://css-loaders.com/dots/ */
+    loading {
+        display: block;
+        opacity: 0.6;
+
+        margin-left: 20px;
+        margin-right: 20px;
+
+        width: 15px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        animation: load 1s infinite linear alternate;
+    }
+    @keyframes load {
+        0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
+        33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
+        66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
+        100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
     }
 </style>
