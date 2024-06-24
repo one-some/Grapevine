@@ -37,7 +37,7 @@
     }
 
     #bar-progress {
-        background-color: limegreen;
+        background-color: var(--grape-green);
         width: var(--progress);
         height: 30px;
         border-radius: 15px;

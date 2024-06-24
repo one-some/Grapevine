@@ -200,14 +200,13 @@
     }
 
     big-button {
-        background-color: green;
+        background-color: var(--grape-green);
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 12px;
         margin: 12px;
         border-radius: 8px;
-        background-color: #4ef04e;
         cursor: pointer;
         color: white;
         font-weight: bold;

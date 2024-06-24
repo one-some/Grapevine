@@ -23,6 +23,7 @@
         --accent0: #9b36e3;
         --accent1: #903eca;
         --bg: #f1e6ff;
+        --grape-green: #28c628;
     }
 
     :global(html, body) {

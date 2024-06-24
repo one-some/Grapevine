@@ -83,7 +83,7 @@
     contact-button {
         text-align: center;
         color: white;
-        background-color: #4ef04e;
+        background-color: var(--grape-green);
         font-size: 1.1em;
         border-radius: 4px;
         padding: 8px;
