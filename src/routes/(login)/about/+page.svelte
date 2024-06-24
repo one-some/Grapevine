@@ -15,7 +15,7 @@
 
 <div id="mainstuff">
     <div id="logo">
-        <img src="\src\routes\(login)\about\Grapevine Logo Opaque.png" alt="Bunch of Grapes">
+        <img src="/logo.jpg" alt="Bunch of Grapes">
     </div>
     <logo-container>
         <h1>Grapevine</h1>
@@ -51,8 +51,8 @@
         border-radius: 20px; */
     }
     #logo {
-        width: 200px;
-        margin: auto;
+        display: flex;
+        justify-content: center;
     }
     logo-container {
         display: flex;
