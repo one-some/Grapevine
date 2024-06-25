@@ -32,7 +32,12 @@
         </info>
     </top-bar>
     <hr>
-    <p>this is where id putmy report...................IF I HAD ONE!!!!!!!!!!111</p>
+    <r-content>
+        <h2>Campaigns</h2>
+        <p>
+            this is where id putmy report...................IF I HAD ONE!!!!!!!!!!111
+        </p>
+    </r-content>
 </report>
 
 <config>
@@ -192,5 +197,14 @@
         :global(body *:not(.printable-ancestor, .printable *)) {
             display: none !important;
         }
+    }
+
+    r-content {
+        display: block;
+        margin: 12px;
+    }
+
+    r-content h2 {
+        margin: 0px;
     }
 </style>
