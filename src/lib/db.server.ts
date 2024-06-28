@@ -173,6 +173,29 @@ export class DonationInProgress {
         });
     }
 
+    static fromId(id: string) {
+        const query = "SELECT id,reason,org_id,campaign_id,contact_id,amount_usd,time_started,time_last_action,donation_stage FROM donations_in_progress WHERE id = ?;";
+        const row: any = db.prepare(query).get(id);
+
+        return new DonationInProgress(
+            row.id,
+            row.reason,
+            Organization.fromId(row.org_id),
+            row.campaign_id,
+            Contact.fromId(row.contact_id),
+            row.amount_usd,
+            row.time_started,
+            row.time_last_action,
+            NegotiationStage[row.donation_stage as keyof typeof NegotiationStage],
+        );
+    }
+
+    static updateStage(donation: DonationInProgress) {
+        // UPDATE (table) SET (x = ?) WHERE (x = 1);
+        const query = "UPDATE donations_in_progress SET amount_usd = ?,time_last_action = ?,donation_stage = ? WHERE id = ?;";
+        const row: any = db.prepare(query).run(donation.amountUsd, donation.time_last_action, donation.donation_stage, donation.id);
+    }
+
     toJSON() {
         const out = {...this};
         out.org = out.org.toJSON();
@@ -199,6 +222,8 @@ export class Organization {
     employeeCount: number;
     tags: string[];
     annual_profit: number;
+    potentialDonation: number;
+    potentialStatus: number;
 
     constructor(
         id: number,
@@ -216,6 +241,8 @@ export class Organization {
         this.employeeCount = employeeCount;
         this.tags = tags;
         this.annual_profit = annual_profit;
+        this.potentialDonation = 0;
+        this.potentialStatus = 0;
     }
 
     static fromSQLRow(row: any): Organization {
@@ -309,6 +336,94 @@ export class Organization {
                 row.time,
             );
         });
+    }
+    
+    static getDonationsJSONed(organization: Organization) {
+        const query = "SELECT id,reason,campaign_id,contact_id,amount_usd,time FROM donations WHERE org_id = ?;";
+        const rows: any[] = db.prepare(query).all([organization.id]);
+
+        // Little odd but will satisfy typing
+        const org = organization;
+        return rows.map(function(row: any) {
+            return new Donation(
+                row.id,
+                row.reason,
+                org,
+                row.campaign_id,
+                Contact.fromId(row.contact_id),
+                row.amount_usd,
+                row.time,
+            );
+        });
+    }
+
+    getNegotiations() {
+        const query = "SELECT id,reason,org_id,campaign_id,contact_id,amount_usd,time_started,time_last_action,donation_stage FROM donations_in_progress WHERE org_id = ?;";
+        const rows: any[] = db.prepare(query).all([this.id]);
+
+        // Little odd but will satisfy typing
+        const org = this;
+        return rows.map(function(row: any) {
+            return new DonationInProgress(
+                row.id,
+                row.reason,
+                org,
+                row.campaign_id,
+                Contact.fromId(row.contact_id),
+                row.amount_usd,
+                row.time_started,
+                row.time_last_action,
+                NegotiationStage[row.donation_stage as keyof typeof NegotiationStage]
+            );
+        });
+    }
+
+
+    static getAll() {
+        const query = `SELECT ${Organization.FullSelectCriteria} FROM orgs WHERE 1 = 1;`;
+        const rows: any[] = db.prepare(query).all();
+
+        return rows.map(function(row: any) {
+            return Organization.fromSQLRow(row);
+        });
+    }
+
+    static calcPotentialDonation(org: Organization) {
+        let donations = Organization.getDonationsJSONed(org);
+
+        donations.sort((a, b) => b.time-a.time);
+
+        let average = 0;
+        for (let donation of donations) {
+            average += donation.amountUsd;
+        }
+        average /= donations.length;
+
+        let time_to_avoid = 7776000000; // 3 months
+        let time_to_ramp = 7776000000; // 3 months
+
+        let status = 0;
+        // console.log("start", Date.now());
+        let time_mod = Date.now()-(donations[0].time)*1000;
+        // console.log("start", time_mod);
+
+        time_mod -= time_to_avoid;
+        time_mod /= time_to_ramp
+        console.log(time_mod);
+        if (time_mod <= 0) {
+            status = 0; // DO NOT ASK
+        }else if (time_mod <= 0.5) {
+            status = 1; // NOT Good Idea
+        }else if (time_mod <= 1) {
+            status = 2; // In a pinch
+        }else {
+            status = 3; // Ask away!
+        }
+        // console.log(time_mod);
+        time_mod = Math.max(0, Math.min(1, time_mod));
+        // console.log(time_mod);
+
+        return {amount: Math.floor(average*time_mod), status: status};
     }
 
     toJSON() {

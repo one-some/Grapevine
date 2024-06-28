@@ -85,7 +85,7 @@
     }
 
     :global(report logo-container h1) {
-        color: var(--grape-green);
+        color: #660077;
         margin: 0px;
     }
 

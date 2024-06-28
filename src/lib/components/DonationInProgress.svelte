@@ -7,6 +7,7 @@
     export let donation;
 </script>
 
+<a href={"/negotiations/"+donation.id} class="all">
 {#if donation.donation_stage == NegotiationStage.INTEREST_INDICATED || donation.donation_stage == NegotiationStage.AMOUNT_PROPOSED_BUSINESS || donation.donation_stage == NegotiationStage.AMOUNT_REFUSED_BUSINESS}
     <donation class="school_action">
         <!-- HACK! -->
@@ -108,8 +109,14 @@
         {/if}
     </donation>
 {/if}
+</a>
 
 <style>
+    .all {
+        text-decoration: none;
+        color: black;
+    }
+
     donation {
         display: block;
         background-color: #00000010;

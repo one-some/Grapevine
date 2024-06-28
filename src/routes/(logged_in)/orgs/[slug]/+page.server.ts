@@ -10,11 +10,13 @@ export function load( {params}) {
 
     const org = Organization.fromName(params.slug);
     const donations = org.getDonations();
+    const negotiations = org.getNegotiations();
 
     //const donations = org.recent(25).map(x => x.toJSON());
     return {
         org: org.toJSON(),
         people: peoples_contact_info,
         donations: donations.map(x => x.toJSON()),
+        ongoingNegotiations: negotiations.map(x => x.toJSON()),
     };
 }

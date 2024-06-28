@@ -1,7 +1,7 @@
 <script lang="ts">
     import SearchBar from "$lib/components/SearchBar.svelte"
 
-    import PartnerCard from "$lib/PartnerCard.svelte"
+    import PartnerCard from "$lib/components/PartnerCard.svelte"
 
     import type { PageData } from "../$types";
     import { onMount } from "svelte";
@@ -10,7 +10,7 @@
     export let data: PageData;
     let searchResults: Organization[];
     $: searchResults = [];
-    let modalBind;
+    let modalBind: HTMLElement;
     let modalHidden: boolean = true;
     let searchParams = {name: "", sort: "name_desc"};
     let searchQuery: string;
@@ -39,6 +39,11 @@
         updateSearchResults();
     }
 
+    function clickDismiss(event: PointerEvent) {
+        if (event.target !== modalBind) return;
+        modalHidden = true;
+    }
+
     onMount(() => {
         updateSearchResults();
         document.body.appendChild(modalBind);
@@ -56,7 +61,7 @@
     No results.
 {/if}
 
-<modal bind:this={modalBind} class:hidden={modalHidden}>
+<modal bind:this={modalBind} class:hidden={modalHidden} on:click={clickDismiss}>
     <editor>
         <modal-label>Edit Contact</modal-label>
         <content>

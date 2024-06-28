@@ -1,6 +1,6 @@
 <!-- i want icons but npm wants to pull some total nonsense and compile stuff likwe what the heck -->
 <script>
-    import Donation from "$lib/components/Donation.svelte"
+    import Donation from "$lib/components/Donation.svelte";
     import { OrgType } from '$lib/types';
 
     // https://icon-sets.iconify.design/mdi/
@@ -14,6 +14,7 @@
     import IconPhone from "virtual:icons/mdi/phone";
     import IconEmail from "virtual:icons/mdi/email";
     import IconPerson from "virtual:icons/mdi/person";
+    import DonationInProgress from "$lib/components/DonationInProgress.svelte";
 
     export let data;
 
@@ -22,30 +23,41 @@
     }
 
     data.donations.sort((a, b) => b.time-a.time);
+    data.ongoingNegotiations.sort((a, b) => b.time-a.time);
 </script>
 
 <big>
     <left>
-        <h2><IconShop />{data.org.name}</h2>
-        <field>
-            <lab><IconGavel />Type</lab>
-            {#if data.org.orgType == OrgType.FOR_PROFIT}
-                <IconAttachMoney />
-                For-Profit
-            {:else}
-                <IconMoneyOff />
-                Non-Profit
-            {/if}
-        </field>
-        <field>
-            <lab><IconWorker />Employee Count</lab>
-            {data.org.employeeCount}
-        </field>
-        <field>
-            <lab><IconAttachMoney />Yearly Revenue</lab>
-            ${commatize(data.org.annual_profit)}
-        </field>
-        <p id="desc">{data.org.desc}</p>
+        <top>
+            <h2><IconShop />{data.org.name}</h2>
+            <field>
+                <lab><IconGavel />Type</lab>
+                {#if data.org.orgType == OrgType.FOR_PROFIT}
+                    <IconAttachMoney />
+                    For-Profit
+                {:else}
+                    <IconMoneyOff />
+                    Non-Profit
+                {/if}
+            </field>
+            <field>
+                <lab><IconWorker />Employee Count</lab>
+                {data.org.employeeCount}
+            </field>
+            <field>
+                <lab><IconAttachMoney />Yearly Revenue</lab>
+                ${commatize(data.org.annual_profit)}
+            </field>
+            <p id="desc">{data.org.desc}</p>
+        </top>
+        <bottom>
+            <h2><IconHandshake />Ongoing Negotiations</h2>
+            <container>
+                {#each data.ongoingNegotiations as donation}
+                    <DonationInProgress {donation} />
+                {/each}
+            </container>
+        </bottom>
     </left>
     <right>
         <top>
@@ -103,7 +115,7 @@
         gap: 8px;
     }
 
-    right {
+    left, right {
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -113,11 +125,11 @@
         margin: 10px;
     }
 
-    big > *, right > *{
+    big > *, right > *, left > *{
         flex: 1 0 0;
     }
 
-    left, top, bottom {
+    top, bottom {
         padding: 20px;
         background-color: white;
         border-radius: 16px;

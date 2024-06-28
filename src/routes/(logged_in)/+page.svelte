@@ -2,10 +2,12 @@
     import SearchBar from "$lib/components/SearchBar.svelte"
     import Donation from "$lib/components/Donation.svelte"
     import DonationInProgress from "$lib/components/DonationInProgress.svelte";
+    import PotentialDonor from "$lib/components/PotentialDonor.svelte";
     
     export let data;
     
     data.recentDonations.sort((a, b) => b.time-a.time);
+    data.organizations.sort((a, b) => (b.potentialStatus-a.potentialStatus || b.potentialDonation-a.potentialDonation));
 </script>
 
 <cont><greeting>Hello, {data.user.firstName}.</greeting></cont>
@@ -38,7 +40,11 @@
     <labeled-box id="donors">
         <box-label>Potential Donors</box-label>
         <box-content>
-            Cannot be done without donations.
+            <div class="scroll">
+                {#each data.organizations as org}
+                    <PotentialDonor {org} />
+                {/each}
+            </div>
         </box-content>
     </labeled-box>
 
@@ -46,13 +52,6 @@
         <box-label>Campaign Deadlines</box-label>
         <box-content>
             Campaigns don't have deadlines.
-        </box-content>
-    </labeled-box>
-
-    <labeled-box id="student-activity">
-        <box-label>Student Activity</box-label>
-        <box-content>
-            And where are the students?
         </box-content>
     </labeled-box>
 </boxes>
@@ -77,6 +76,7 @@
         border-radius: 8px;
         background-color: #00000022;
         margin-top: 6px;
+        height: 293px;
     }
 
     box-label {
@@ -92,15 +92,14 @@
 
     box-content {
         padding: 12px;
-    }
-
-    .dono-cont {
         padding: 0px;
     }
 
     .scroll {
-        height:250px;
+        height: 250px;
         overflow-y:scroll;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 
     boxes {
@@ -123,14 +122,10 @@
     }
     #donors {
         grid-column: 2;
-        grid-row: 1 / 4;
+        grid-row: 1 / 3;
     }
     #deadlines {
         grid-column: 2;
-        grid-row: 4 / 7;
-    }
-    #student-activity {
-        grid-column: 1;
-        grid-row: 5 / 7;
+        grid-row: 3 / 5;
     }
 </style>
