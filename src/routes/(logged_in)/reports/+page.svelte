@@ -1,6 +1,6 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
-    import { commatizeNumber } from "$lib/util";
+    import { commatizeNumber, toCleanStamp } from "$lib/util";
 
     export let data;
 
@@ -10,6 +10,7 @@
     let showCampaigns = true;
     let showDonations = true;
     let showNegotiations = true;
+    let monochrome = false;
 
     function printElement(element: HTMLElement) {
         // Well ain't that annoying!
@@ -25,11 +26,19 @@
 
         window.print();
     }
+
+    function redGreenColor(scalar) {
+        return `rgb(${(1.0 - scalar) * 255}, ${scalar * 200}, 0)`;
+    }
+
+    function getUnsecuredFunds() {
+        return data.campaigns.map(x => x.money_needed - x.money_donated).reduce((a, x) => a + x);
+    }
 </script>
 
 <split>
 
-<report bind:this={reportElement}>
+<report bind:this={reportElement} class:mono={monochrome}>
     <top-bar>
         <Logo />
         <info>
@@ -39,20 +48,80 @@
         </info>
     </top-bar>
     <hr>
-    <r-content>
-        <h2>Campaigns</h2>
-        <c-cont>
-            {#each data.campaigns as c}
-                <camp>
-                    <b>{c.title}</b>
-                    <money>${commatizeNumber(c.money_donated)}</money>
-                    /
-                    <money>${commatizeNumber(c.money_needed)}</money>
-                    Concludes at: <time>{new Date(c.deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
-                </camp>
-            {/each}
-        </c-cont>
-    </r-content>
+
+    {#if showCampaigns}
+        <r-content>
+            <h2>Campaigns</h2>
+<table>
+    <thead>
+        <tr>
+        <th scope="col">Campaign</th>
+        <th scope="col">Funds Donated</th>
+        <th scope="col">Fund Target</th>
+        <th scope="col">Deadline</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.campaigns as c}
+            <tr>
+                <td style="text-align: center;">{c.title}</td>
+                <td
+                    class="money"
+                    style={"color:"+redGreenColor(c.money_donated / c.money_needed)}
+                    >
+                    ${commatizeNumber(c.money_donated)} ({(c.money_donated / c.money_needed*100).toFixed(1)}%)
+                </td>
+                <td class="money">${commatizeNumber(c.money_needed)}</td>
+                <td>{toCleanStamp(c.deadline)}</td>
+            </tr>
+        {/each}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row" colspan="2">Unsecured Funds</th>
+            <td class="money" style="font-weight:bold;color:crimson;">${commatizeNumber(getUnsecuredFunds())}</td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+        </r-content>
+    {/if}
+
+    {#if showDonations}
+        <r-content>
+            <h2>Donations</h2>
+<table>
+    <thead>
+        <tr>
+        <th scope="col">Donor Org</th>
+        <th scope="col">Agent</th>
+        <th scope="col">Amount (USD)</th>
+        <th scope="col">Date</th>
+        <th scope="col">Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.recentDonations as d}
+            <tr>
+                <td style="text-align: center;">{d.org?.name}</td>
+                <td style="text-align: center;">{d.contact?.name}</td>
+                <td class="money">${commatizeNumber(d.amountUsd)}</td>
+                <td>{toCleanStamp(d.time)}</td>
+                <td style="text-align: center;" class:faint={!d.reason}>{d.reason ?? "N/A"}</td>
+            </tr>
+        {/each}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row" colspan="2">Cumulative Donations</th>
+            <td class="money">${commatizeNumber(data.recentDonations.map(x => x.amountUsd).reduce((a, x) => a + x))}</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tfoot>
+</table>
+        </r-content>
+    {/if}
 </report>
 
 <config>
@@ -73,6 +142,10 @@
         <row>
             <label for="show-negotiations">Show Negotiations</label>
             <input id="show-negotiations" type="checkbox" bind:checked={showNegotiations}>
+        </row>
+        <row>
+            <label for="bw-page">B/W Webpage</label>
+            <input id="bw-page" type="checkbox" bind:checked={monochrome}>
         </row>
 
     </config-options>
@@ -97,6 +170,7 @@
     report {
         flex-grow: 1;
         background-color: white;
+        overflow-y: auto;
     }
 
     :global(report logo-container) {
@@ -221,6 +295,7 @@
 
     r-content h2 {
         margin: 0px;
+        margin-bottom: 18px;
     }
 
     c-cont {
@@ -230,21 +305,44 @@
         margin: 12px;
     }
 
-    camp {
-        display: flex;
-        gap: 8px;
-        align-items: center;
+    table {
+        border-collapse:collapse;
         background-color: #00000022;
-        padding: 4px;
-        transition: 200ms background-color;
+        border-spacing: 50px 0;
+        padding-left: 8px;
+        padding-right: 8px;
+        width: 100%;
     }
 
-    camp:nth-child(odd) {
+    thead {
+        border-bottom: 1px solid black;
+    }
+
+    tfoot {
+        border-top: 1px solid black;
+    }
+
+    tr:nth-child(odd) {
         background-color: #00000033;
     }
 
-    money {
+    td, th {
+        padding-left: 4px;
+        padding-right: 20px;
+        text-align: center;
+    }
+
+    .money {
         color: green;
         font-weight: bold;
+        text-align: center;
+    }
+
+    .mono {
+        filter: grayscale(1.0);
+    }
+
+    .faint {
+        opacity: 0.5;
     }
 </style>
