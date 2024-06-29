@@ -10,15 +10,23 @@
 
 <a href={"/campaigns/"+campaign.title} class="all">
     <campaign>
-        <time>{new Date(campaign.deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
-        <sep>―</sep>
-        <campaign-title>
-            <IconBox />
-            <a href="/campaigns/{campaign.title}">{campaign.title}</a>
-        </campaign-title>
-        <dollars>${commatizeNumber(campaign.money_donated)}</dollars>
-        <txt>/</txt>
-        <dollars>${commatizeNumber(campaign.money_needed)}</dollars>
+        <chunk class="top">
+            <time>{new Date(campaign.deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
+            <sep>―</sep>
+            <campaign-title>
+                <IconBox />
+                <a href="/campaigns/{campaign.title}">{campaign.title}</a>
+            </campaign-title>
+            <dollars>${commatizeNumber(campaign.money_donated)}</dollars>
+            <txt>/</txt>
+            <dollars>${commatizeNumber(campaign.money_needed)}</dollars>
+        </chunk>
+        <chunk class="bottom">
+            <dollars>{campaign.days_left} Days</dollars>
+            <txt>left:</txt>
+            <dollars>${commatizeNumber(campaign.money_per_day)}</dollars>
+            <txt>per day to reach goal.</txt>
+        </chunk>
     </campaign>
 </a>
 
@@ -27,16 +35,20 @@
         text-decoration: none;
         color: black;
     }
-    
+
     campaign {
+        padding: 12px;
         display: block;
         background-color: #00000010;
         transition: background-color 200ms;
-        padding: 12px;
     }
 
     campaign:hover {
         background-color: #ffffff20;
+    }
+
+    chunk {
+        display: block;
     }
     
 
@@ -71,5 +83,14 @@
         font-weight: bold;
         font-size: 0.9em;
         display: inline-block;
+    }
+
+    .top {
+        margin-bottom: 0px;
+        padding-bottom: 2px;
+    }
+    .bottom {
+        margin-top: 0px;
+        padding-top: 2px;
     }
 </style>
