@@ -1,8 +1,8 @@
 <script>
-    export let title, desc, money_donated, money_needed, deadline;
+    export let title, desc, money_donated, money_needed, deadline, id;
 </script>
 
-<a href="campaigns/{title}" id="campaign-entry">
+<a href="campaigns/{id}" id="campaign-entry">
     <h1>
         {title}
     </h1>

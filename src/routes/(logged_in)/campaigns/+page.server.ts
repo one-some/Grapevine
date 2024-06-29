@@ -52,28 +52,41 @@ export const actions = {
         const data = await request.formData();
 		const title = data.get("title") as String;
 		const desc = data.get("description") as String;
-		const deadlineform = data.get("deadline") as String;
+		const deadlineform = data.get("deadline");
 		const goalform = data.get("goal") as String;
 		const uid = decodeJWT(cookies.get("JWT")).email
+
+		console.log(deadlineform)
 
 		if (title == '' || desc == '' || goalform == '' || deadlineform == '') {
 			return fail(422, {"message": "All boxes are mandatory!"})
 		}
 
-		if (deadlineform <= "2024-06-29") {
+		if (deadlineform <= "2024-06-30") {
 			return fail(422, {"message": "Deadline must be in the future"})
 		}
 
-		const deadline = readableDate(deadlineform);
+		var deadline = new Date(deadlineform);
+		// var deadline_now_utc = Date.UTC(deadline.getUTCFullYear(), deadline.getUTCMonth(),
+		// deadline.getUTCDate(), deadline.getUTCHours(),
+		// deadline.getUTCMinutes(), deadline.getUTCSeconds());
 
-		try {
-			const goal = Number(goalform);
-		} catch {
+		var newdeadline = new Date(deadline.getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 1 * 3600000).getTime() / 1000
+
+		// console.log(new Date(deadline_now_utc));
+		// console.log(deadline.toDateString() ,deadline.getTime(), newdeadline.getTime(), newdeadline.toDateString());
+		 // Local Time
+		// Why not same???
+
+		// const numbermatch = /(123456789)*/
+		// .replace(/[0-9]/g, "")
+		if (goalform.replace(/[0-9]/g, "").length != 0){
 			return fail(422, {"message": "Goal must be a number!"})
 		}
 		
-		// db.prepare("INSERT INTO campaigns (")
+		
+		db.prepare("INSERT INTO campaigns (title, desc, money_needed, money_donated, owner_id, deadline) VALUES ( ?, ?, ?, 0, ?, ?)").run(title, desc, Number(goalform), uid, newdeadline)
 
-		return {"message": "Alright then!"}
+		return {success: true}
     }
 }
