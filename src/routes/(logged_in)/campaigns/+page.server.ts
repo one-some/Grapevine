@@ -48,7 +48,7 @@ export const actions = {
 
     add_new_campaign: async ({ cookies, request, url }) => {
 
-		const hack = url.pathname
+		const hack = url.pathname;
         const data = await request.formData();
 		const title = data.get("title") as String;
 		const desc = data.get("description") as String;
