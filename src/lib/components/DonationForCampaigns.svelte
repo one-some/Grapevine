@@ -35,13 +35,13 @@
 
 <style>
     donation {
-        /* display: flex; */
+        display: block;
         background-color: #ffffff;
         transition: background-color 200ms;
         padding: 12px;
         border-radius: 10px;
-        /* margin-top: 10px;
-        margin-bottom: 10px; */
+        margin-top: 3px;
+        margin-bottom: 3px;
     }
 
     donation:hover {
