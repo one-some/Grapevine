@@ -85,8 +85,8 @@
                 <block-cont>
                     <faint>Company Type:</faint>
                     <select form="new_business" name="type">
-                        <option value=1>Non-Profit</option>
-                        <option value=0>For-Profit</option>
+                        <option value="NON_PROFIT">Non-Profit</option>
+                        <option value="FOR_PROFIT">For-Profit</option>
                     </select>
                 </block-cont>
                 <block-cont>
@@ -151,9 +151,9 @@
                 </block-cont>
                 <block-cont>
                     <faint>
-                        Annual Profit:
+                        Annual Profit: $
                     </faint>
-                    $<input name="annual_profit" type="number" value=0 placeholder="Profit">
+                    <input name="annual_profit" type="number" value=0 placeholder="Profit">
                 </block-cont>
                 <block-cont>
                     <faint>
@@ -161,7 +161,7 @@
                     </faint>
                 </block-cont>
                 <block-cont>
-                    <textarea name="desc"></textarea>
+                    <textarea name="desc" id="desc"></textarea>
                 </block-cont>
             </content>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
