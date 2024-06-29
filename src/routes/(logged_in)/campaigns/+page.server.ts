@@ -1,4 +1,5 @@
 import Database from 'better-sqlite3';
+import { Campaign } from '$lib/db.server.js';
 import { invalidate } from '$app/navigation';
 import { fail } from '@sveltejs/kit';
 import { read } from '$app/server';
@@ -7,9 +8,9 @@ const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
 
 export function load({ params }) {
-    var campaigns = db.prepare("SELECT title, desc, money_needed, money_donated FROM campaigns WHERE owner_id = 1;").all();
+    var campaigns = Campaign.getAll().map(x => x.toJSON()).reverse();
 	return {
-		campaings: campaigns,
+		campaigns: campaigns,
 	};
 }
 

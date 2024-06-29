@@ -1,4 +1,4 @@
-import { Donation, DonationInProgress, Organization, User } from '$lib/db.server';
+import { Donation, DonationInProgress, Organization, User, Campaign } from '$lib/db.server';
 import Database from 'better-sqlite3';
 const db = new Database("db/main.db", {});
 db.pragma("journal_mode = WAL");
@@ -16,6 +16,7 @@ export function load(  { cookies, url }) {
     const recentDonations = Donation.recent(25).map(x => x.toJSON()).reverse();
     const ongoingNegotiations = DonationInProgress.recent(10).map(x => x.toJSON()).reverse();
     const organizations = Organization.getAll().map(x => x.toJSON()).reverse();
+    const campaigns = Campaign.getAll().map(x => x.toJSON()).reverse();
 
     for (let org of organizations) {
         let ret = Organization.calcPotentialDonation(org);
@@ -28,6 +29,7 @@ export function load(  { cookies, url }) {
         contact: contact,
         recentDonations: recentDonations,
         ongoingNegotiations: ongoingNegotiations,
-        organizations: organizations
+        organizations: organizations,
+        campaigns: campaigns
     };
 }

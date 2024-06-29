@@ -158,12 +158,13 @@ CREATE TABLE campaigns(
     desc TEXT NOT NULL,
     money_needed INTEGER NOT NULL,
     money_donated INTEGER NOT NULL,
-    owner_id INTEGER NOT NULL
+    owner_id INTEGER NOT NULL,
+    deadline INTEGER NOT NULL
 );
-INSERT INTO campaigns VALUES(1,'Football State Championship','Our football team needs funding to travel to the state championship.',10000,5880,1);
-INSERT INTO campaigns VALUES(2,'Eco Car','We need funding to purchase parts for our eco-car team.',5000,3208,1);
-INSERT INTO campaigns VALUES(3,'Robotics','Our robotics team needs funding to purchase new motors.',2000,1029,1);
-INSERT INTO campaigns VALUES(4,'FBLA','Our FBLA team needs funding to go to the State Conference.',2300,1215,1);
+INSERT INTO campaigns VALUES(1,'Football State Championship','Our football team needs funding to travel to the state championship.',10000,2400,1, 1735370203);
+INSERT INTO campaigns VALUES(2,'Eco Car','We need funding to purchase parts for our eco-car team.',5000,3208,1, 1725344203);
+INSERT INTO campaigns VALUES(3,'Robotics','Our robotics team needs funding to purchase new motors.',2000,1800,1, 1720160203);
+INSERT INTO campaigns VALUES(4,'FBLA','Our FBLA team needs funding to go to the State Conference.',2300,1215,1, 1724048203);
 CREATE TABLE contacts(
     id INTEGER PRIMARY KEY,
     -- TODO: WARNUNIQUE(first_name, last_name)

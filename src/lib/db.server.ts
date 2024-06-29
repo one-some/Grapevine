@@ -409,7 +409,7 @@ export class Organization {
 
         time_mod -= time_to_avoid;
         time_mod /= time_to_ramp
-        console.log(time_mod);
+        // console.log(time_mod);
         if (time_mod <= 0) {
             status = 0; // DO NOT ASK
         }else if (time_mod <= 0.5) {
@@ -424,6 +424,80 @@ export class Organization {
         // console.log(time_mod);
 
         return {amount: Math.floor(average*time_mod), status: status};
+    }
+
+    toJSON() {
+        return {...this};
+    }
+}
+
+export class Campaign {
+    static FullSelectCriteria = [
+        "id",
+        "title",
+        "desc",
+        "money_needed",
+        "money_donated",
+        "owner_id",
+        "deadline",
+    ].join(",");
+
+    id: number;
+    title: string;
+    desc: string;
+    money_needed: number;
+    money_donated: number;
+    owner_id: number;
+    deadline: number;
+
+    constructor(
+        id: number,
+        title: string,
+        desc: string,
+        money_needed: number,
+        money_donated: number,
+        owner_id: number,
+        deadline: number,
+    ) {
+        this.id = id;
+        this.title = title;
+        this.desc = desc;
+        this.money_needed = money_needed;
+        this.money_donated = money_donated;
+        this.money_donated = money_donated;
+        this.owner_id = owner_id;
+        this.deadline = deadline;
+    }
+
+    static fromSQLRow(row: any): Campaign {
+        return new Campaign(
+            row.id,
+            row.title,
+            row.desc,
+            row.money_needed,
+            row.money_donated,
+            row.owner_id,
+            row.deadline
+        );
+    }
+
+    static fromId(id: number): Campaign {
+        const row = db.prepare(`SELECT ${Campaign.FullSelectCriteria} FROM campaigns WHERE id = ?;`).get(id);
+        return Campaign.fromSQLRow(row);
+    }
+
+    static fromName(name: string): Campaign {
+        const row = db.prepare(`SELECT ${Campaign.FullSelectCriteria} FROM campaigns WHERE name = ?;`).get(name);
+        return Campaign.fromSQLRow(row);
+    }
+
+    static getAll() {
+        const query = `SELECT ${Campaign.FullSelectCriteria} FROM campaigns WHERE 1 = 1;`;
+        const rows: any[] = db.prepare(query).all();
+
+        return rows.map(function(row: any) {
+            return Campaign.fromSQLRow(row);
+        });
     }
 
     toJSON() {

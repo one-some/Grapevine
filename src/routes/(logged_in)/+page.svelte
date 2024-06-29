@@ -3,11 +3,13 @@
     import Donation from "$lib/components/Donation.svelte"
     import DonationInProgress from "$lib/components/DonationInProgress.svelte";
     import PotentialDonor from "$lib/components/PotentialDonor.svelte";
+    import CampaignMini from "$lib/components/CampaignMini.svelte";
     
     export let data;
     
     data.recentDonations.sort((a, b) => b.time-a.time);
     data.organizations.sort((a, b) => (b.potentialStatus-a.potentialStatus || b.potentialDonation-a.potentialDonation));
+    data.campaigns.sort((a, b) => (a.deadline-b.deadline));
 </script>
 
 <cont><greeting>Hello, {data.user.firstName}.</greeting></cont>
@@ -51,7 +53,11 @@
     <labeled-box id="deadlines">
         <box-label>Campaign Deadlines</box-label>
         <box-content>
-            Campaigns don't have deadlines.
+            <div class="scroll">
+                {#each data.campaigns as campaign}
+                    <CampaignMini {campaign} />
+                {/each}
+            </div>
         </box-content>
     </labeled-box>
 </boxes>
