@@ -18,12 +18,6 @@ export function load(  { cookies, url }) {
     const organizations = Organization.getAll().map(x => x.toJSON()).reverse();
     const campaigns = Campaign.getAll().map(x => x.toJSON()).reverse();
 
-    for (let org of organizations) {
-        let ret = Organization.calcPotentialDonation(org);
-        org.potentialDonation = ret.amount;
-        org.potentialStatus = ret.status;
-    }
-
     return {
         user: user.toJSON(),
         contact: contact,

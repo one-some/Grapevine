@@ -9,7 +9,7 @@
     
     data.recentDonations.sort((a, b) => b.time-a.time);
     data.organizations.sort((a, b) => (b.potentialStatus-a.potentialStatus || b.potentialDonation-a.potentialDonation));
-    data.campaigns.sort((a, b) => (a.deadline-b.deadline));
+    data.campaigns.sort((a, b) => (b.money_per_day-a.money_per_day));
 </script>
 
 <cont><greeting>Hello, {data.user.firstName}.</greeting></cont>
