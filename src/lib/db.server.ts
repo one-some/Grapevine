@@ -121,7 +121,6 @@ export class Donation {
 }
 
 export class DonationInProgress {
-    // Note: keep these as basic JS objects so serialization is ezpz
     id: number;
     reason: string;
     org: Organization;

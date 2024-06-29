@@ -12,6 +12,17 @@
     let showNegotiations = true;
     let monochrome = false;
 
+    const KNegotiationStage = [
+        "Interest Indicated",
+        "Proposal Made",
+        "Amount Proposed (School)",
+        "Amount Proposed (Business)",
+        "Amount Refused (School)",
+        "Amount Refused (Business)",
+        "Amount Accepted",
+        "Payment Made",
+    ];
+
     function printElement(element: HTMLElement) {
         // Well ain't that annoying!
         for (const el of document.querySelectorAll("printable")) {
@@ -119,6 +130,43 @@
             <td></td>
         </tr>
     </tfoot>
+</table>
+        </r-content>
+    {/if}
+
+    {#if showNegotiations}
+        <r-content>
+            <h2>Negotiations</h2>
+<table>
+    <thead>
+        <tr>
+        <th scope="col">Donor Org</th>
+        <th scope="col">Agent</th>
+        <th scope="col">Donation Stage</th>
+        <th scope="col">Amount (USD)</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Last Action Date</th>
+        <th scope="col">Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.ongoingNegotiations as n}
+            <tr>
+                <td style="text-align: center;">{n.org.name}</td>
+                <td style="text-align: center;">{n.contact.name}</td>
+                <td style="text-align: center;">{KNegotiationStage[n.donation_stage]}</td>
+                <td
+                    class:money={!!n.amountUsd}
+                    class:faint={!n.amountUsd}
+                >
+                    {n.amountUsd ? "$" + commatizeNumber(n.amountUsd) : "N/A"}
+                </td>
+                <td>{toCleanStamp(n.time_started)}</td>
+                <td>{toCleanStamp(n.time_last_action)}</td>
+                <td style="text-align: center;" class:faint={!n.reason}>{n.reason ?? "N/A"}</td>
+            </tr>
+        {/each}
+    </tbody>
 </table>
         </r-content>
     {/if}
