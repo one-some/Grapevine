@@ -3,6 +3,7 @@
     import Donation from "$lib/components/Donation.svelte"
     import DonationInProgress from "$lib/components/DonationInProgress.svelte";
     import PotentialDonor from "$lib/components/PotentialDonor.svelte";
+    import CampaignBox from "$lib/components/CampaignBox.svelte";
     
     export let data;
     
@@ -51,7 +52,9 @@
     <labeled-box id="deadlines">
         <box-label>Campaign Deadlines</box-label>
         <box-content>
-            Campaigns don't have deadlines.
+            {#each data.campaigns as campaign}
+                <CampaignBox {...campaign} />
+            {/each}
         </box-content>
     </labeled-box>
 </boxes>

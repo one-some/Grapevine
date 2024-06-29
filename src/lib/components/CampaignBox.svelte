@@ -1,11 +1,15 @@
 <script>
-    export let title, desc, money_donated, money_needed;
+    export let title, desc, money_donated, money_needed, deadline;
 </script>
 
 <a href="campaigns/{title}" id="campaign-entry">
     <h1>
         {title}
     </h1>
+    <h2 id="date">
+        Deadline:
+        <time>{new Date(deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
+    </h2>
     <h2>
         {desc}
     </h2>
@@ -58,16 +62,24 @@
         font-size: 15px;
     }
     a:link { 
-  text-decoration: none; 
-} 
-a:visited { 
-  text-decoration: none; 
-} 
-a:hover { 
-  text-decoration: none; 
-} 
-a:active { 
-  text-decoration: none; 
-}
+        text-decoration: none; 
+    } 
+    a:visited { 
+        text-decoration: none; 
+    } 
+    a:hover { 
+        text-decoration: none; 
+    } 
+    a:active { 
+        text-decoration: none; 
+    }
+
+    #date {
+        font-weight: bold;
+    }
+    time {
+        color: black;
+        font-weight: bold;
+    }
 
 </style>

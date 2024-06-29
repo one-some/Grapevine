@@ -1,5 +1,5 @@
 <script>
-    import Campaign from "$lib/components/Campaign.svelte";
+    import CampaignBox from "$lib/components/CampaignBox.svelte";
     import IconPlus from "virtual:icons/mdi/plus";
     import IconMinus from "virtual:icons/mdi/minus";
     export let data, form;
@@ -47,7 +47,7 @@
 </div>
 
 {#each data.campaings as campaign}
-<Campaign {...campaign} --progress={String(campaign.money_donated / campaign.money_needed * 100) + "%"}/>
+<CampaignBox {...campaign} --progress={String(campaign.money_donated / campaign.money_needed * 100) + "%"}/>
 {/each}
 
 <style>
