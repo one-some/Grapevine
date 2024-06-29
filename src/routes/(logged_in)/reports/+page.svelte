@@ -1,8 +1,15 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
+    import { commatizeNumber } from "$lib/util";
+
+    export let data;
 
     let date = new Date();
     let reportElement: HTMLElement;
+
+    let showCampaigns = true;
+    let showDonations = true;
+    let showNegotiations = true;
 
     function printElement(element: HTMLElement) {
         // Well ain't that annoying!
@@ -28,15 +35,23 @@
         <info>
             Report generated
             <b>{date.toLocaleString()}</b>
-            by <b>Gavin</b>.
+            by <b>{data.user.firstName} {data.user.lastName}</b>.
         </info>
     </top-bar>
     <hr>
     <r-content>
         <h2>Campaigns</h2>
-        <p>
-            this is where id putmy report...................IF I HAD ONE!!!!!!!!!!111
-        </p>
+        <c-cont>
+            {#each data.campaigns as c}
+                <camp>
+                    <b>{c.title}</b>
+                    <money>${commatizeNumber(c.money_donated)}</money>
+                    /
+                    <money>${commatizeNumber(c.money_needed)}</money>
+                    Concludes at: <time>{new Date(c.deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
+                </camp>
+            {/each}
+        </c-cont>
     </r-content>
 </report>
 
@@ -49,15 +64,15 @@
 
         <row>
             <label for="show-campaigns">Show Campaigns</label>
-            <input id="show-campaigns" type="checkbox" checked>
+            <input id="show-campaigns" type="checkbox" bind:checked={showCampaigns}>
         </row>
         <row>
             <label for="show-donations">Show Donations</label>
-            <input id="show-donations" type="checkbox" checked>
+            <input id="show-donations" type="checkbox" bind:checked={showDonations}>
         </row>
         <row>
             <label for="show-negotiations">Show Negotiations</label>
-            <input id="show-negotiations" type="checkbox" checked>
+            <input id="show-negotiations" type="checkbox" bind:checked={showNegotiations}>
         </row>
 
     </config-options>
@@ -206,5 +221,30 @@
 
     r-content h2 {
         margin: 0px;
+    }
+
+    c-cont {
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        margin: 12px;
+    }
+
+    camp {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        background-color: #00000022;
+        padding: 4px;
+        transition: 200ms background-color;
+    }
+
+    camp:nth-child(odd) {
+        background-color: #00000033;
+    }
+
+    money {
+        color: green;
+        font-weight: bold;
     }
 </style>
