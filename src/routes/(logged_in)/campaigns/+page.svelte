@@ -35,9 +35,10 @@
         New Campaign
     </h1>
     <form action="?/add_new_campaign" method="POST">
-        <input type="title" id="input-title" placeholder="Title">
-        <input type="description" id="input-description" placeholder="Enter a description here">
-        <input type="goal" id='input-goal' placeholder="Goal">
+        <input name="title" id="input-title" placeholder="Title" type="text">
+        <input name="description" id="input-description" placeholder="Enter a description here" type="text">
+        <input type="date" name="deadline">
+        <input name="goal" id='input-goal' placeholder="Goal" type="text">
         <br>
         <input type="submit" id="new-campaign-submit-button">
         {#if (form?.message)}
