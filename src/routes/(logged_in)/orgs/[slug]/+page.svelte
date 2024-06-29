@@ -15,6 +15,7 @@
     import IconEmail from "virtual:icons/mdi/email";
     import IconPerson from "virtual:icons/mdi/person";
     import IconEdit from "virtual:icons/mdi/edit";
+    import IconPlus from "virtual:icons/mdi/plus";
     import DonationInProgress from "$lib/components/DonationInProgress.svelte";
     import { onMount } from "svelte";
 
@@ -22,14 +23,20 @@
 
     let editModalBind: HTMLElement;
     let editModalHidden = true;
+    let contactModalBind: HTMLElement;
+    let contactModalHidden = true;
 
     function commatize(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    function clickDismiss(event: PointerEvent) {
+    function editClickDismiss(event: PointerEvent) {
         if (event.target !== editModalBind) return;
         editModalHidden = true;
+    }
+    function contactClickDismiss(event: PointerEvent) {
+        if (event.target !== contactModalBind) return;
+        contactModalHidden = true;
     }
 
     data.donations.sort((a, b) => b.time-a.time);
@@ -37,6 +44,7 @@
 
     onMount(() => {
         document.body.appendChild(editModalBind);
+        document.body.appendChild(contactModalBind);
         console.log(form?.message);
         if (form?.message !== "All Good!" && form?.message) {
             editModalHidden = false;
@@ -79,7 +87,7 @@
     </left>
     <right>
         <top>
-            <h2><IconContact />Contacts</h2>
+            <h2 on:click={() => contactModalHidden = false}><IconContact />Contacts<IconPlus /></h2>
             <container>
                 {#each data.people as info}
                     <guy>
@@ -110,17 +118,17 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<modal bind:this={editModalBind} class:hidden={editModalHidden} on:click={clickDismiss}>
+<modal bind:this={editModalBind} class:hidden={editModalHidden} on:click={editClickDismiss}>
     <editor>
-        <modal-label>Edit Contact</modal-label>
-        <form id="new_business" action="?/add_new_business" method="POST">
+        <modal-label>Edit Business</modal-label>
+        <form id="edit_business" action="?/edit_business" method="POST">
             <content>
                 <block-cont>
                     <input name="name" placeholder="New Partner" value={data.org.name} />
                 </block-cont>
                 <block-cont>
                     <faint>Company Type:</faint>
-                    <select form="new_business" name="type">
+                    <select form="edit_business" name="type">
                         <option value="NON_PROFIT">Non-Profit</option>
                         <option value="FOR_PROFIT">For-Profit</option>
                     </select>
@@ -128,7 +136,7 @@
                 <block-cont>
                     <faint>Location:</faint>
                     <input name="city" value="Lafayette" placeholder="City">,
-                    <select form="new_business" name="state">
+                    <select form="edit_business" name="state">
                         <option>Louisiana</option>
                         <option>Alabama</option>
                         <option>Alaska</option>
@@ -197,8 +205,39 @@
                     </faint>
                 </block-cont>
                 <block-cont>
-                    <textarea name="desc" id="desc" value={data.org.desc}></textarea>
+                    <textarea name="desc" id="description" value={data.org.desc}></textarea>
                 </block-cont>
+            </content>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <input type="submit" id="big-button">
+            {#if (form?.message) && form?.message !== "All Good!"}
+            <p id="error">
+                {form?.message}
+            </p>
+            {/if}
+        </form>
+    </editor>
+</modal>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<modal bind:this={contactModalBind} class:hidden={contactModalHidden} on:click={contactClickDismiss}>
+    <editor>
+        <modal-label>Add Contact</modal-label>
+        <form id="add_contact" action="?/add_contact" method="POST">
+            <content>
+                <block-cont>
+                    <input name="name" placeholder="New Contact" />
+                </block-cont>
+                <block-cont>
+                    <faint>Phone:</faint>
+                    <input name="phone" placeholder="(###) ###-####">
+                </block-cont>
+                <block-cont>
+                    <faint>Email:</faint>
+                    <input name="email" placeholder="example@gmail.com">
+                </block-cont>
+                <input hidden name="org_id" value={data.org.id}>
             </content>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -385,7 +424,7 @@
         width: 25%;
     }
 
-    #desc {
+    #description {
         width: 100%;
     }
 
