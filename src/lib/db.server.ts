@@ -241,8 +241,10 @@ export class Organization {
         this.employeeCount = employeeCount;
         this.tags = tags;
         this.annual_profit = annual_profit;
-        this.potentialDonation = 0;
-        this.potentialStatus = 0;
+
+        let ret = Organization.calcPotentialDonation(this);
+        this.potentialDonation = ret.amount;
+        this.potentialStatus = ret.status;
     }
 
     static fromSQLRow(row: any): Organization {
@@ -399,8 +401,8 @@ export class Organization {
         }
         average /= donations.length;
 
-        let time_to_avoid = 7776000000; // 3 months
-        let time_to_ramp = 7776000000; // 3 months
+        const time_to_avoid = 7776000000; // 3 months
+        const time_to_ramp = 7776000000; // 3 months
 
         let status = 0;
         // console.log("start", Date.now());
@@ -449,6 +451,8 @@ export class Campaign {
     money_donated: number;
     owner_id: number;
     deadline: number;
+    money_per_day: number;
+    days_left: number;
 
     constructor(
         id: number,
@@ -467,6 +471,10 @@ export class Campaign {
         this.money_donated = money_donated;
         this.owner_id = owner_id;
         this.deadline = deadline;
+        
+        let ret = Campaign.calcMoneyPerDay(this);
+        this.money_per_day = ret.money_per_day;
+        this.days_left = ret.days_left;
     }
 
     static fromSQLRow(row: any): Campaign {
@@ -498,6 +506,14 @@ export class Campaign {
         return rows.map(function(row: any) {
             return Campaign.fromSQLRow(row);
         });
+    }
+
+    static calcMoneyPerDay(campaign: Campaign) {
+        const unixDay = 86400;
+        let days_left = campaign.deadline-(Date.now() / 1000);
+        days_left = Math.ceil(days_left/unixDay);
+        let money_left = campaign.money_needed-campaign.money_donated;
+        return {money_per_day: Math.ceil(money_left/days_left), days_left: days_left};
     }
 
     toJSON() {
