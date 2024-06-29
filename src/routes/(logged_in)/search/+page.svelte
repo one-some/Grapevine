@@ -61,13 +61,15 @@
     No results.
 {/if}
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <modal bind:this={modalBind} class:hidden={modalHidden} on:click={clickDismiss}>
     <editor>
         <modal-label>Edit Contact</modal-label>
         <content>
             <block-cont>
                 <input id="name" placeholder="New Partner" />
-            </block-cont>
+            <!-- </block-cont>
             <block-cont>
                 <faint>a new</faint>
                 <select>
@@ -131,7 +133,109 @@
                     <option>Wisconsin</option>
                     <option>Wyoming</option>
             </block-cont>
+            <block-cont>
+                <faint>with a company size of</faint>
+                <input id="company_size" type="number" value=0 placeholder="Employees">
+                <faint>employees</faint>
+            </block-cont>
+            <block-cont>
+                <faint>
+                    and an annual profit of
+                </faint>
+                $<input id="annual_profit" type="number" value=0 placeholder="Profit">
+            </block-cont>
+            <block-cont>
+                <faint>
+                    which can be briefly described by the following:
+                </faint>
+            </block-cont>
+            <block-cont>
+                <input id="desc" type="text">
+            </block-cont> -->
+            <block-cont>
+                <faint>Company Type:</faint>
+                <select>
+                    <option>Non-Profit</option>
+                    <option>For-Profit</option>
+                </select>
+            </block-cont>
+            <block-cont>
+                <faint>Location:</faint>
+                <input id="place" value="Lafayette" placeholder="City">,
+                <select>
+                    <option>Louisiana</option>
+                    <option>Alabama</option>
+                    <option>Alaska</option>
+                    <option>Arizona</option>
+                    <option>Arkansas</option>
+                    <option>California</option>
+                    <option>Colorado</option>
+                    <option>Connecticut</option>
+                    <option>Delaware</option>
+                    <option>Florida</option>
+                    <option>Georgia</option>
+                    <option>Hawaii</option>
+                    <option>Idaho</option>
+                    <option>Illinois</option>
+                    <option>Indiana</option>
+                    <option>Iowa</option>
+                    <option>Kansas</option>
+                    <option>Kentucky</option>
+                    <option>Maine</option>
+                    <option>Maryland</option>
+                    <option>Massachusetts</option>
+                    <option>Michigan</option>
+                    <option>Minnesota</option>
+                    <option>Mississippi</option>
+                    <option>Missouri</option>
+                    <option>Montana</option>
+                    <option>Nebraska</option>
+                    <option>Nevada</option>
+                    <option>New Hampshire</option>
+                    <option>New Jersey</option>
+                    <option>New Mexico</option>
+                    <option>New York</option>
+                    <option>North Carolina</option>
+                    <option>North Dakota</option>
+                    <option>Ohio</option>
+                    <option>Oklahoma</option>
+                    <option>Oregon</option>
+                    <option>Pennsylvania</option>
+                    <option>Rhode Island</option>
+                    <option>South Carolina</option>
+                    <option>South Dakota</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Utah</option>
+                    <option>Vermont</option>
+                    <option>Virginia</option>
+                    <option>Washington</option>
+                    <option>West Virginia</option>
+                    <option>Wisconsin</option>
+                    <option>Wyoming</option>
+            </block-cont>
+            <block-cont>
+                <faint>Company Size:</faint>
+                <input id="company_size" type="number" value=0 placeholder="Employees">
+                <faint>Employees</faint>
+            </block-cont>
+            <block-cont>
+                <faint>
+                    Annual Profit:
+                </faint>
+                $<input id="annual_profit" type="number" value=0 placeholder="Profit">
+            </block-cont>
+            <block-cont>
+                <faint>
+                    Brief Description:
+                </faint>
+            </block-cont>
+            <block-cont>
+                <textarea id="desc"></textarea>
+            </block-cont>
         </content>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <big-button on:click={() => modalHidden = true}>Save</big-button>
     </editor>
 </modal>
@@ -168,6 +272,7 @@
 
     faint {
         opacity: 0.7;
+        font-size: 16px;
     }
 
     block-cont {
@@ -218,5 +323,18 @@
 
     #new-button {
         width: 25%;
+    }
+
+    #desc {
+        width: 100%;
+    }
+
+    input, textarea, select {
+        font-size: 16px;
+    }
+    textarea {
+        resize: none;
+        height: 75px;
+        font-family: sans-serif;
     }
 </style>
