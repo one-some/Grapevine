@@ -5,6 +5,7 @@
     import IconShop from "virtual:icons/mdi/shop";
     import IconPerson from "virtual:icons/mdi/person";
     import IconAlert from "virtual:icons/mdi/alert";
+    import IconCalendar from "virtual:icons/mdi/calendar-month";
     import DonationInProgress from "$lib/components/DonationInProgress.svelte";
     import { NegotiationStage } from '$lib/types';
     import { onMount } from "svelte";
@@ -115,12 +116,12 @@
         </field>
         <field>
             Negotiation begun
-            <lab><IconAlert /></lab>
+            <lab><IconCalendar /></lab>
             <time>{new Date(data.donation.time_started * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
         </field>
         <field>
             Last action taken
-            <lab><IconAlert /></lab>
+            <lab><IconCalendar /></lab>
             <time>{new Date(data.donation.time_last_action * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
         </field>
         {#if inMoneyStage(data.donation.donation_stage)}
@@ -410,19 +411,19 @@
         background-color: #00AA00FF;
     }
     .school-action:hover {
-        background-color: #006600FF;
+        background-color: #005500FF;
     }
     .business-action {
         background-color: #AAAA00FF;
     }
     .business-action:hover {
-        background-color: #666600FF;
+        background-color: #555500FF;
     }
     .end-action {
         background-color: #AA0000FF;
     }
     .end-action:hover {
-        background-color: #660000FF;
+        background-color: #550000FF;
     }
     
     modal {

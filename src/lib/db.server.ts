@@ -409,7 +409,7 @@ export class Organization {
 
         time_mod -= time_to_avoid;
         time_mod /= time_to_ramp
-        console.log(time_mod);
+        // console.log(time_mod);
         if (time_mod <= 0) {
             status = 0; // DO NOT ASK
         }else if (time_mod <= 0.5) {

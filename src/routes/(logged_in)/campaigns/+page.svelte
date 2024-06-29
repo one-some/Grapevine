@@ -12,6 +12,8 @@
     if(form?.message) {
         show();
     }
+
+    data.campaigns.sort((a, b) => b.money_needed-a.money_needed);
 </script>
 
 
@@ -46,7 +48,7 @@
     </form>
 </div>
 
-{#each data.campaings as campaign}
+{#each data.campaigns as campaign}
 <CampaignBox {...campaign} --progress={String(campaign.money_donated / campaign.money_needed * 100) + "%"}/>
 {/each}
 
