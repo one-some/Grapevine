@@ -20,7 +20,7 @@
     $: if (inputBox) inputBox.disabled = thinking;
 
     let messages: ChatMessage[] = [
-        {author: MessageAuthor.JOE, message: "Hello! My name is Joe and I'm here to help you with Grapevine. How can I assist you today?"}
+        {author: MessageAuthor.JOE, message: "Hello! My name is Vinny and I'm here to help you with Grapevine. How can I assist you today?"}
     ];
 
     function inputKeydown(event) {
@@ -61,6 +61,9 @@
         if (query.includes("account")) {
             return `Account management can be performed under the account management section. For more details, <a href="/help#manage_account">see the documentation</a>.`
         }
+        if (query.includes("business")) {
+            return `You can edit a business from the business's page. For more details, <a href="/help#edit_business">see the documentation</a>.`
+        }
         return "I'm sorry, I don't understand your request. Try asking a question like \"how do I manage an account?\"";
     }
 
@@ -87,7 +90,7 @@
                 </close>
             </bar>
             <msg-cont bind:this={msgCont}>
-                <tutorial>In this window, you can ask Joe, our intelligent chatbot, any question you might have regarding the use of Grapevine.</tutorial>
+                <tutorial>In this window, you can ask Vinny, our intelligent chatbot, any question you might have regarding the use of Grapevine.</tutorial>
                 {#each messages as message}
                     <msg-wrapper author="{message.author}"><msg>{@html message.message}</msg></msg-wrapper>
                 {/each}

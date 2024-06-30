@@ -211,10 +211,6 @@
         text-align: justify;
     }
 
-    .unimplemented {
-        background-color: rgb(204, 109, 0);
-    }
-
     ul {
         list-style-type: square;
     }
