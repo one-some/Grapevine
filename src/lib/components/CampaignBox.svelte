@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
     export let title, desc, money_donated, money_needed, deadline, id;
+    import { commatizeNumber, toCleanStamp, redGreenLerp } from "$lib/util";
 </script>
 
 <a href="campaigns/{id}" id="campaign-entry">
@@ -8,16 +9,19 @@
     </h1>
     <h2 id="date">
         Deadline:
-        <time>{new Date(deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
+        <time>{toCleanStamp(deadline)}</time>
     </h2>
     <h2>
         {desc}
     </h2>
     <h1 id="fraction">
-        {money_donated} / {money_needed}
+        ${commatizeNumber(money_donated)} / ${commatizeNumber(money_needed)}
     </h1>
     <div id="progress-bar">
-        <div id="bar-progress"></div>
+        <div
+            id="bar-progress"
+            style={"background-color:"+redGreenLerp(money_donated / money_needed, 0.8)}
+        ></div>
     </div>
 </a>
 <style>
@@ -37,7 +41,8 @@
     }
 
     #fraction {
-        display: inline-block;
+        color: green;
+        display: block;
     }
 
     #bar-progress {

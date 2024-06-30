@@ -1,6 +1,6 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
-    import { commatizeNumber, toCleanStamp } from "$lib/util";
+    import { commatizeNumber, toCleanStamp, redGreenLerp} from "$lib/util";
 
     export let data;
 
@@ -36,10 +36,6 @@
         }
 
         window.print();
-    }
-
-    function redGreenColor(scalar) {
-        return `rgb(${(1.0 - scalar) * 255}, ${scalar * 200}, 0)`;
     }
 
     function getUnsecuredFunds() {
@@ -78,7 +74,7 @@
                 <td style="text-align: center;">{c.title}</td>
                 <td
                     class="money"
-                    style={"color:"+redGreenColor(c.money_donated / c.money_needed)}
+                    style={"color:"+redGreenLerp(c.money_donated / c.money_needed, 0.65)}
                     >
                     ${commatizeNumber(c.money_donated)} ({(c.money_donated / c.money_needed*100).toFixed(1)}%)
                 </td>
@@ -384,6 +380,7 @@
         color: green;
         font-weight: bold;
         text-align: center;
+        -webkit-text-stroke: 0.2px black;
     }
 
     .mono {
