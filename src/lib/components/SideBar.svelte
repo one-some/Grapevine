@@ -9,7 +9,7 @@
     <hr>
 
     <SidebarButton text="Home" link="/" />
-    <SidebarButton text="Search" link="/search" />
+    <SidebarButton text="Contacts" link="/search" />
     <SidebarButton text="Campaigns" link="/campaigns"/>
     <SidebarButton text="Reports" link="/reports"/>
     <SidebarButton text="Help" link="/help"/>

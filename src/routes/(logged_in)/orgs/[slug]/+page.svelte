@@ -25,6 +25,10 @@
     let editModalHidden = true;
     let contactModalBind: HTMLElement;
     let contactModalHidden = true;
+    let negModalBind: HTMLElement;
+    let negModalHidden = true;
+    let donateModalBind: HTMLElement;
+    let donateModalHidden = true;
 
     function commatize(n) {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -38,6 +42,14 @@
         if (event.target !== contactModalBind) return;
         contactModalHidden = true;
     }
+    function negClickDismiss(event: PointerEvent) {
+        if (event.target !== negModalBind) return;
+        negModalHidden = true;
+    }
+    function donateClickDismiss(event: PointerEvent) {
+        if (event.target !== donateModalBind) return;
+        donateModalHidden = true;
+    }
 
     data.donations.sort((a, b) => b.time-a.time);
     data.ongoingNegotiations.sort((a, b) => b.time-a.time);
@@ -45,6 +57,8 @@
     onMount(() => {
         document.body.appendChild(editModalBind);
         document.body.appendChild(contactModalBind);
+        document.body.appendChild(negModalBind);
+        document.body.appendChild(donateModalBind);
         console.log(form?.message);
         if (form?.message !== "All Good!" && form?.message) {
             editModalHidden = false;
@@ -77,7 +91,7 @@
             <p id="desc">{data.org.desc}</p>
         </top>
         <bottom>
-            <h2><IconHandshake />Ongoing Negotiations</h2>
+            <h2 on:click={() => negModalHidden = false}><IconHandshake />Ongoing Negotiations<IconPlus /></h2>
             <container>
                 {#each data.ongoingNegotiations as donation}
                     <DonationInProgress {donation} />
@@ -105,7 +119,7 @@
             </container>
         </top>
         <bottom>
-            <h2><IconHandshake />Contributions</h2>
+            <h2 on:click={() => donateModalHidden = false}><IconHandshake />Contributions<IconPlus /></h2>
             <container>
                 {#each data.donations as donation}
                     <Donation {donation} />
@@ -207,6 +221,7 @@
                 <block-cont>
                     <textarea name="desc" id="description" value={data.org.desc}></textarea>
                 </block-cont>
+                <input hidden name="org_id" value={data.org.id}>
             </content>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -227,7 +242,12 @@
         <form id="add_contact" action="?/add_contact" method="POST">
             <content>
                 <block-cont>
-                    <input name="name" placeholder="New Contact" />
+                    <faint>First Name:</faint>
+                    <input name="first_name" placeholder="John" />
+                </block-cont>
+                <block-cont>
+                    <faint>Last Name:</faint>
+                    <input name="last_name" placeholder="Smith" />
                 </block-cont>
                 <block-cont>
                     <faint>Phone:</faint>
@@ -247,6 +267,66 @@
                 {form?.message}
             </p>
             {/if}
+        </form>
+    </editor>
+</modal>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<modal bind:this={negModalBind} class:hidden={negModalHidden} on:click={negClickDismiss}>
+    <editor id="tiny-modal">
+        <modal-label>New Negotiation</modal-label>
+        <form id="new_neg" action="?/new_neg" method="POST">
+            <content>
+                <block-cont>
+                    <faint>Contact:</faint>
+                    <select form="new_neg" name="contact">
+                        {#each data.people as person}
+                            <option value={person.id}>{person.first_name+" "+person.last_name}</option>
+                        {/each}
+                    </select>
+                    <!-- {#each data.people as person}
+                        <faint>{person.id}</faint>
+                    {/each} -->
+                </block-cont>
+                <input hidden name="org_id" value={data.org.id}>
+            </content>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <input type="submit" id="big-button">
+        </form>
+    </editor>
+</modal>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<modal bind:this={donateModalBind} class:hidden={donateModalHidden} on:click={donateClickDismiss}>
+    <editor id="medium-modal">
+        <modal-label>New Donation</modal-label>
+        <form id="new_donate" action="?/new_donate" method="POST">
+            <content>
+                <block-cont>
+                    <faint>Contact:</faint>
+                    <select form="new_donate" name="contact_id">
+                        {#each data.people as person}
+                            <option value={person.id}>{person.first_name+" "+person.last_name}</option>
+                        {/each}
+                    </select>
+                    <!-- {#each data.people as person}
+                        <faint>{person.id}</faint>
+                    {/each} -->
+                </block-cont>
+                <block-cont>
+                    <faint>Amount:</faint>
+                    <input type="number" placeholder="Amount" value=0 name="amount">
+                </block-cont>
+                <block-cont>
+                    <faint>Date:</faint>
+                    <input type="date" name="date">
+                </block-cont>
+                <input hidden name="org_id" value={data.org.id}>
+            </content>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <input type="submit" id="big-button">
         </form>
     </editor>
 </modal>
@@ -357,6 +437,16 @@
     modal.hidden {
         opacity: 0;
         pointer-events: none;
+    }
+
+    #tiny-modal {
+        width: 25%;
+        height: 25%;
+    }
+
+    #medium-modal {
+        width: 25%;
+        height: 35%;
     }
 
     content {
