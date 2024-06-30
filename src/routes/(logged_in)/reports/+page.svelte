@@ -1,6 +1,6 @@
 <script lang="ts">
     import Logo from "$lib/components/Logo.svelte";
-    import { commatizeNumber, toCleanStamp } from "$lib/util";
+    import { commatizeNumber, toCleanStamp, redGreenLerp} from "$lib/util";
 
     export let data;
 
@@ -11,6 +11,17 @@
     let showDonations = true;
     let showNegotiations = true;
     let monochrome = false;
+
+    const KNegotiationStage = [
+        "Interest Indicated",
+        "Proposal Made",
+        "Amount Proposed (School)",
+        "Amount Proposed (Business)",
+        "Amount Refused (School)",
+        "Amount Refused (Business)",
+        "Amount Accepted",
+        "Payment Made",
+    ];
 
     function printElement(element: HTMLElement) {
         // Well ain't that annoying!
@@ -25,10 +36,6 @@
         }
 
         window.print();
-    }
-
-    function redGreenColor(scalar) {
-        return `rgb(${(1.0 - scalar) * 255}, ${scalar * 200}, 0)`;
     }
 
     function getUnsecuredFunds() {
@@ -67,7 +74,7 @@
                 <td style="text-align: center;">{c.title}</td>
                 <td
                     class="money"
-                    style={"color:"+redGreenColor(c.money_donated / c.money_needed)}
+                    style={"color:"+redGreenLerp(c.money_donated / c.money_needed, 0.65)}
                     >
                     ${commatizeNumber(c.money_donated)} ({(c.money_donated / c.money_needed*100).toFixed(1)}%)
                 </td>
@@ -119,6 +126,43 @@
             <td></td>
         </tr>
     </tfoot>
+</table>
+        </r-content>
+    {/if}
+
+    {#if showNegotiations}
+        <r-content>
+            <h2>Negotiations</h2>
+<table>
+    <thead>
+        <tr>
+        <th scope="col">Donor Org</th>
+        <th scope="col">Agent</th>
+        <th scope="col">Donation Stage</th>
+        <th scope="col">Amount (USD)</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Last Action Date</th>
+        <th scope="col">Reason</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.ongoingNegotiations as n}
+            <tr>
+                <td style="text-align: center;">{n.org.name}</td>
+                <td style="text-align: center;">{n.contact.name}</td>
+                <td style="text-align: center;">{KNegotiationStage[n.donation_stage]}</td>
+                <td
+                    class:money={!!n.amountUsd}
+                    class:faint={!n.amountUsd}
+                >
+                    {n.amountUsd ? "$" + commatizeNumber(n.amountUsd) : "N/A"}
+                </td>
+                <td>{toCleanStamp(n.time_started)}</td>
+                <td>{toCleanStamp(n.time_last_action)}</td>
+                <td style="text-align: center;" class:faint={!n.reason}>{n.reason ?? "N/A"}</td>
+            </tr>
+        {/each}
+    </tbody>
 </table>
         </r-content>
     {/if}
@@ -336,6 +380,7 @@
         color: green;
         font-weight: bold;
         text-align: center;
+        -webkit-text-stroke: 0.2px black;
     }
 
     .mono {

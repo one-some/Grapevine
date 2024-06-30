@@ -8,14 +8,14 @@
     export let campaign: Campaign;
 </script>
 
-<a href={"/campaigns/"+campaign.title} class="all">
+<a href={"/campaigns/"+campaign.id} class="all">
     <campaign>
         <chunk class="top">
             <time>{new Date(campaign.deadline * 1000).toDateString().split(" ").slice(1, 4).join(" ")}</time>
             <sep>―</sep>
             <campaign-title>
                 <IconBox />
-                <a href="/campaigns/{campaign.title}">{campaign.title}</a>
+                <a href="/campaigns/{campaign.id}">{campaign.title}</a>
             </campaign-title>
             <dollars>${commatizeNumber(campaign.money_donated)}</dollars>
             <txt>/</txt>

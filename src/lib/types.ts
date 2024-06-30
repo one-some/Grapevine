@@ -5,7 +5,7 @@ export enum OrgType {
 }
 
 export enum NegotiationStage {
-    INTEREST_INDICATED, 
+    INTEREST_INDICATED,
     PROPOSAL_MADE,
     AMOUNT_PROPOSED_SCHOOL,
     AMOUNT_PROPOSED_BUSINESS,

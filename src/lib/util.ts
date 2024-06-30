@@ -17,3 +17,8 @@ export function toCleanStamp(time: number): string {
     const parts = new Date(time * 1000).toDateString().split(" ").slice(1, 4);
     return `${parts[0]} ${parts[1]}, ${parts[2]}`;
 }
+
+export function redGreenLerp(scalar: number, value: number) {
+    const h = scalar * 135;
+    return `hsl(${h}, 100%, ${value * 50}%)`;
+}
