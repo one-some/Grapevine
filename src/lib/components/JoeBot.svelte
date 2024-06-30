@@ -4,7 +4,7 @@
     import IconSend from "virtual:icons/mdi/send";
 
     enum MessageAuthor {
-        JOE = "joe",
+        VINNY = "vinny",
         USER = "user",
     };
 
@@ -20,7 +20,7 @@
     $: if (inputBox) inputBox.disabled = thinking;
 
     let messages: ChatMessage[] = [
-        {author: MessageAuthor.JOE, message: "Hello! My name is Vinny and I'm here to help you with Grapevine. How can I assist you today?"}
+        {author: MessageAuthor.VINNY, message: "Hello! My name is Vinny and I'm here to help you with Grapevine. How can I assist you today?"}
     ];
 
     function inputKeydown(event) {
@@ -70,13 +70,13 @@
     function reply() {
         const query = messages.at(-1).message.toLowerCase();
         const response = getResponse(query);
-        addMessage({author: MessageAuthor.JOE, message: response});
+        addMessage({author: MessageAuthor.VINNY, message: response});
         thinking = false;
     }
 
 </script>
 
-<joe-bot>
+<vinny-bot>
     {#if shown}
         <dm>
             <bar>
@@ -96,7 +96,7 @@
                 {/each}
 
                 {#if thinking}
-                    <msg-wrapper author="joe"><msg>
+                    <msg-wrapper author="vinny"><msg>
                         <loading />
                     </msg></msg-wrapper>
                 {/if}
@@ -113,10 +113,10 @@
             <IconChatQuestion />
         </help-icon>
     {/if}
-</joe-bot>
+</vinny-bot>
 
 <style>
-    joe-bot {
+    vinny-bot {
         z-index: 9;
         font-family: sans-serif;
         position: absolute;
@@ -198,7 +198,7 @@
         justify-content: end;
     }
     
-    msg-wrapper[author="joe"] msg {
+    msg-wrapper[author="vinny"] msg {
         background-color: #0000ff40;
     }
 
