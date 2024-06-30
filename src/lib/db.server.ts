@@ -392,6 +392,10 @@ export class Organization {
     static calcPotentialDonation(org: Organization) {
         let donations = Organization.getDonationsJSONed(org);
 
+        if (donations.length == 0) {
+            return {amount: 1000, status: 3};
+        }
+
         donations.sort((a, b) => b.time-a.time);
 
         let average = 0;

@@ -7,7 +7,7 @@
     import { onMount } from "svelte";
     import type { Organization } from "$lib/db.server";
     
-    export let data: PageData;
+    export let data: PageData, form;
     let searchResults: Organization[];
     $: searchResults = [];
     let modalBind: HTMLElement;
@@ -44,9 +44,20 @@
         modalHidden = true;
     }
 
+    function checkFormStatus() {
+        console.log(form?.message);
+        if (form?.message === "All Good!") {
+            modalHidden = true;
+        }
+    }
+
     onMount(() => {
         updateSearchResults();
         document.body.appendChild(modalBind);
+        console.log(form?.message);
+        if (form?.message !== "All Good!" && form?.message) {
+            modalHidden = false;
+        }
     });
 </script>
 
@@ -66,177 +77,102 @@
 <modal bind:this={modalBind} class:hidden={modalHidden} on:click={clickDismiss}>
     <editor>
         <modal-label>Edit Contact</modal-label>
-        <content>
-            <block-cont>
-                <input id="name" placeholder="New Partner" />
-            <!-- </block-cont>
-            <block-cont>
-                <faint>a new</faint>
-                <select>
-                    <option>Non-Profit</option>
-                    <option>For-Profit</option>
-                </select>
-                <faint>business partner</faint>
-            </block-cont>
-            <block-cont>
-                <faint>stationed in</faint>
-                <input id="place" value="Lafayette" placeholder="City">,
-                <select>
-                    <option>Louisiana</option>
-                    <option>Alabama</option>
-                    <option>Alaska</option>
-                    <option>Arizona</option>
-                    <option>Arkansas</option>
-                    <option>California</option>
-                    <option>Colorado</option>
-                    <option>Connecticut</option>
-                    <option>Delaware</option>
-                    <option>Florida</option>
-                    <option>Georgia</option>
-                    <option>Hawaii</option>
-                    <option>Idaho</option>
-                    <option>Illinois</option>
-                    <option>Indiana</option>
-                    <option>Iowa</option>
-                    <option>Kansas</option>
-                    <option>Kentucky</option>
-                    <option>Maine</option>
-                    <option>Maryland</option>
-                    <option>Massachusetts</option>
-                    <option>Michigan</option>
-                    <option>Minnesota</option>
-                    <option>Mississippi</option>
-                    <option>Missouri</option>
-                    <option>Montana</option>
-                    <option>Nebraska</option>
-                    <option>Nevada</option>
-                    <option>New Hampshire</option>
-                    <option>New Jersey</option>
-                    <option>New Mexico</option>
-                    <option>New York</option>
-                    <option>North Carolina</option>
-                    <option>North Dakota</option>
-                    <option>Ohio</option>
-                    <option>Oklahoma</option>
-                    <option>Oregon</option>
-                    <option>Pennsylvania</option>
-                    <option>Rhode Island</option>
-                    <option>South Carolina</option>
-                    <option>South Dakota</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Utah</option>
-                    <option>Vermont</option>
-                    <option>Virginia</option>
-                    <option>Washington</option>
-                    <option>West Virginia</option>
-                    <option>Wisconsin</option>
-                    <option>Wyoming</option>
-            </block-cont>
-            <block-cont>
-                <faint>with a company size of</faint>
-                <input id="company_size" type="number" value=0 placeholder="Employees">
-                <faint>employees</faint>
-            </block-cont>
-            <block-cont>
-                <faint>
-                    and an annual profit of
-                </faint>
-                $<input id="annual_profit" type="number" value=0 placeholder="Profit">
-            </block-cont>
-            <block-cont>
-                <faint>
-                    which can be briefly described by the following:
-                </faint>
-            </block-cont>
-            <block-cont>
-                <input id="desc" type="text">
-            </block-cont> -->
-            <block-cont>
-                <faint>Company Type:</faint>
-                <select>
-                    <option>Non-Profit</option>
-                    <option>For-Profit</option>
-                </select>
-            </block-cont>
-            <block-cont>
-                <faint>Location:</faint>
-                <input id="place" value="Lafayette" placeholder="City">,
-                <select>
-                    <option>Louisiana</option>
-                    <option>Alabama</option>
-                    <option>Alaska</option>
-                    <option>Arizona</option>
-                    <option>Arkansas</option>
-                    <option>California</option>
-                    <option>Colorado</option>
-                    <option>Connecticut</option>
-                    <option>Delaware</option>
-                    <option>Florida</option>
-                    <option>Georgia</option>
-                    <option>Hawaii</option>
-                    <option>Idaho</option>
-                    <option>Illinois</option>
-                    <option>Indiana</option>
-                    <option>Iowa</option>
-                    <option>Kansas</option>
-                    <option>Kentucky</option>
-                    <option>Maine</option>
-                    <option>Maryland</option>
-                    <option>Massachusetts</option>
-                    <option>Michigan</option>
-                    <option>Minnesota</option>
-                    <option>Mississippi</option>
-                    <option>Missouri</option>
-                    <option>Montana</option>
-                    <option>Nebraska</option>
-                    <option>Nevada</option>
-                    <option>New Hampshire</option>
-                    <option>New Jersey</option>
-                    <option>New Mexico</option>
-                    <option>New York</option>
-                    <option>North Carolina</option>
-                    <option>North Dakota</option>
-                    <option>Ohio</option>
-                    <option>Oklahoma</option>
-                    <option>Oregon</option>
-                    <option>Pennsylvania</option>
-                    <option>Rhode Island</option>
-                    <option>South Carolina</option>
-                    <option>South Dakota</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Utah</option>
-                    <option>Vermont</option>
-                    <option>Virginia</option>
-                    <option>Washington</option>
-                    <option>West Virginia</option>
-                    <option>Wisconsin</option>
-                    <option>Wyoming</option>
-            </block-cont>
-            <block-cont>
-                <faint>Company Size:</faint>
-                <input id="company_size" type="number" value=0 placeholder="Employees">
-                <faint>Employees</faint>
-            </block-cont>
-            <block-cont>
-                <faint>
-                    Annual Profit:
-                </faint>
-                $<input id="annual_profit" type="number" value=0 placeholder="Profit">
-            </block-cont>
-            <block-cont>
-                <faint>
-                    Brief Description:
-                </faint>
-            </block-cont>
-            <block-cont>
-                <textarea id="desc"></textarea>
-            </block-cont>
-        </content>
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <big-button on:click={() => modalHidden = true}>Save</big-button>
+        <form id="new_business" action="?/add_new_business" method="POST">
+            <content>
+                <block-cont>
+                    <input name="name" placeholder="New Partner" />
+                </block-cont>
+                <block-cont>
+                    <faint>Company Type:</faint>
+                    <select form="new_business" name="type">
+                        <option value="NON_PROFIT">Non-Profit</option>
+                        <option value="FOR_PROFIT">For-Profit</option>
+                    </select>
+                </block-cont>
+                <block-cont>
+                    <faint>Location:</faint>
+                    <input name="city" value="Lafayette" placeholder="City">,
+                    <select form="new_business" name="state">
+                        <option>Louisiana</option>
+                        <option>Alabama</option>
+                        <option>Alaska</option>
+                        <option>Arizona</option>
+                        <option>Arkansas</option>
+                        <option>California</option>
+                        <option>Colorado</option>
+                        <option>Connecticut</option>
+                        <option>Delaware</option>
+                        <option>Florida</option>
+                        <option>Georgia</option>
+                        <option>Hawaii</option>
+                        <option>Idaho</option>
+                        <option>Illinois</option>
+                        <option>Indiana</option>
+                        <option>Iowa</option>
+                        <option>Kansas</option>
+                        <option>Kentucky</option>
+                        <option>Maine</option>
+                        <option>Maryland</option>
+                        <option>Massachusetts</option>
+                        <option>Michigan</option>
+                        <option>Minnesota</option>
+                        <option>Mississippi</option>
+                        <option>Missouri</option>
+                        <option>Montana</option>
+                        <option>Nebraska</option>
+                        <option>Nevada</option>
+                        <option>New Hampshire</option>
+                        <option>New Jersey</option>
+                        <option>New Mexico</option>
+                        <option>New York</option>
+                        <option>North Carolina</option>
+                        <option>North Dakota</option>
+                        <option>Ohio</option>
+                        <option>Oklahoma</option>
+                        <option>Oregon</option>
+                        <option>Pennsylvania</option>
+                        <option>Rhode Island</option>
+                        <option>South Carolina</option>
+                        <option>South Dakota</option>
+                        <option>Tennessee</option>
+                        <option>Texas</option>
+                        <option>Utah</option>
+                        <option>Vermont</option>
+                        <option>Virginia</option>
+                        <option>Washington</option>
+                        <option>West Virginia</option>
+                        <option>Wisconsin</option>
+                        <option>Wyoming</option>
+                </block-cont>
+                <block-cont>
+                    <faint>Company Size:</faint>
+                    <input name="company_size" type="number" value=0 placeholder="Employees">
+                    <faint>Employees</faint>
+                </block-cont>
+                <block-cont>
+                    <faint>
+                        Annual Profit: $
+                    </faint>
+                    <input name="annual_profit" type="number" value=0 placeholder="Profit">
+                </block-cont>
+                <block-cont>
+                    <faint>
+                        Brief Description:
+                    </faint>
+                </block-cont>
+                <block-cont>
+                    <textarea name="desc" id="desc"></textarea>
+                </block-cont>
+            </content>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <input type="submit" id="big-button">
+            {#if (form?.message) && form?.message !== "All Good!"}
+            <p id="error">
+                {form?.message}
+            </p>
+            {/if}
+        </form>
     </editor>
 </modal>
 
@@ -308,7 +244,7 @@
         margin-bottom: 12px;
     }
 
-    big-button {
+    big-button, #big-button {
         background-color: var(--grape-green);
         display: flex;
         justify-content: center;
@@ -319,6 +255,7 @@
         cursor: pointer;
         color: white;
         font-weight: bold;
+        width: 95%;
     }
 
     #new-button {
@@ -336,5 +273,13 @@
         resize: none;
         height: 75px;
         font-family: sans-serif;
+    }
+
+    #error {
+        font-size: 20px;
+        color: #CC0000FF;
+        font-weight: bold;
+        display: inline-flex;
+        padding: 10px;
     }
 </style>
