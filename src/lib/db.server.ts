@@ -442,7 +442,6 @@ export class Campaign {
         "title",
         "desc",
         "money_needed",
-        "money_donated",
         "owner_id",
         "deadline",
     ].join(",");
@@ -471,7 +470,6 @@ export class Campaign {
         this.desc = desc;
         this.money_needed = money_needed;
         this.money_donated = money_donated;
-        this.money_donated = money_donated;
         this.owner_id = owner_id;
         this.deadline = deadline;
         
@@ -481,12 +479,13 @@ export class Campaign {
     }
 
     static fromSQLRow(row: any): Campaign {
+        const d = db.prepare("SELECT SUM(amount_usd) FROM donations WHERE campaign_id = ?").get(row.id)["SUM(amount_usd)"] ?? 0;
         return new Campaign(
             row.id,
             row.title,
             row.desc,
             row.money_needed,
-            row.money_donated,
+            d,
             row.owner_id,
             row.deadline
         );
